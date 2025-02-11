@@ -1,0 +1,24 @@
+meta {
+  name: Non-PSP Payment
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{nonpspAdapterUrl}}/api/checkout/v1/orders/{{orderId}}/payments
+  body: none
+  auth: bearer
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+vars:post-response {
+  paymentId: res.body.paymentId
+}

@@ -1,0 +1,28 @@
+meta {
+  name: Request Token
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{commerceIdentityServiceUrl}}/connect/token
+  body: formUrlEncoded
+  auth: none
+}
+
+body:form-urlencoded {
+  grant_type: client_credentials
+  client_id: {{commerceIdentityClientId}}
+  client_secret: {{commerceIdentityClientSecret}}
+  scope: lab
+}
+
+vars:post-response {
+  commerce_token: res.body.access_token
+}
+
+tests {
+  test("Healthcheck returns 200", function() {
+    expect(res.status).to.eql(200);
+  });
+}

@@ -1,0 +1,24 @@
+meta {
+  name: Order
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{orderUrl}}/api/v0/checkout/orders/{{orderId}}
+  body: none
+  auth: bearer
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+vars:post-response {
+  cartItemId: res.body.cart.items[0].id
+}

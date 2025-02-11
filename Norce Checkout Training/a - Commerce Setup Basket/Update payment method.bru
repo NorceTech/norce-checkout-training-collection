@@ -1,0 +1,46 @@
+meta {
+  name: Update payment method
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{commerceShoppingServiceUrl}}/UpdatePaymentMethod?paymentMethodId=239&basketId={{basketId}}
+  body: none
+  auth: bearer
+}
+
+params:query {
+  paymentMethodId: 239
+  basketId: {{basketId}}
+}
+
+headers {
+  Content-Type: application/json
+  applicationId: {{commerceApplicationId}}
+}
+
+auth:bearer {
+  token: {{commerce_token}}
+}
+
+body:json {
+  {
+    "Email": "kalle@anka.se",
+    "FirstName": "Kalle",
+    "LastName": "Anka",
+    "CellPhone": "555-1234",
+    "InvoiceAddress": {
+      "Line1": "Ankeborgsgatan 27",
+      "Zip": "123 45",
+      "City": "Ankeborg",
+      "CountryId": 1
+    },
+    "UseInvoiceAddressAsDeliveryAddress": true
+  }
+}
+
+assert {
+  res.status: eq 200
+  res('Basket.Id'): eq {{basketId}}
+}

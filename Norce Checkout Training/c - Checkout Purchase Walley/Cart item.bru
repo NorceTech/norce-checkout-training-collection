@@ -1,0 +1,26 @@
+meta {
+  name: Cart item
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{norceAdapterUrl}}/api/v1/orders/{{orderId}}/cart/items/{{cartItemId}}
+  body: json
+  auth: bearer
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "quantity":2
+  }
+}

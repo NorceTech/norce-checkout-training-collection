@@ -1,0 +1,24 @@
+meta {
+  name: Walley Payment
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{walleyAdapterUrl}}/api/checkout/v1/orders/{{orderId}}/payments
+  body: none
+  auth: bearer
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+vars:post-response {
+  paymentId: res.body.paymentId
+}

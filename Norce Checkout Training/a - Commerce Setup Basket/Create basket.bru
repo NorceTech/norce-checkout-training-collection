@@ -1,0 +1,39 @@
+meta {
+  name: Create basket
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{commerceShoppingServiceUrl}}/CreateBasket?ipAddress=127.0.0.1&createdBy=1&format=json
+  body: json
+  auth: bearer
+}
+
+params:query {
+  ipAddress: 127.0.0.1
+  createdBy: 1
+  format: json
+}
+
+headers {
+  Content-Type: application/json
+  applicationId: {{commerceApplicationId}}
+}
+
+auth:bearer {
+  token: {{commerce_token}}
+}
+
+body:json {
+  {}
+}
+
+vars:post-response {
+  basketId: res.body.Id
+}
+
+assert {
+  res.status: eq 200
+  res('Id'): isDefined
+}
