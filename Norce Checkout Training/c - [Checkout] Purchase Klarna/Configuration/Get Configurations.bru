@@ -1,0 +1,24 @@
+meta {
+  name: Get Configurations
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{configurationUrl}}/api/v1/configuration/merchants/{{merchant}}/channels/{{channel}}/configurations
+  body: json
+  auth: bearer
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+docs {
+  Get the configurations for a channel
+}

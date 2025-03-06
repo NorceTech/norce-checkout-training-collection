@@ -1,20 +1,18 @@
 meta {
-  name: Insert basket item
+  name: [Shopping] Update delivery method
   type: http
-  seq: 3
+  seq: 5
 }
 
 post {
-  url: {{commerceShoppingServiceUrl}}/InsertBasketItem?ipAddress=127.0.0.1&createdBy=1&format=json&basketId={{basketId}}
+  url: {{commerceShoppingServiceUrl}}/UpdateDeliveryMethod4?basketId={{basketId}}&format=json
   body: json
   auth: bearer
 }
 
 params:query {
-  ipAddress: 127.0.0.1
-  createdBy: 1
-  format: json
   basketId: {{basketId}}
+  format: json
 }
 
 headers {
@@ -27,13 +25,12 @@ auth:bearer {
 }
 
 body:json {
-  {
-    "PartNo": "100011",
-    "Quantity": 1
+  { 
+      "Id": 128
   }
 }
 
 assert {
   res.status: eq 200
-  res('Id'): eq {{basketId}}
+  res('Basket.Id'): eq {{basketId}}
 }

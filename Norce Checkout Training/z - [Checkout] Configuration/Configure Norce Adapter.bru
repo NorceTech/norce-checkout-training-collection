@@ -32,11 +32,11 @@ body:json {
       "clientId": {{commerceClientId}},
       "applicationId": {{commerceApplicationId}}
     },
-    "api": {
-      "identityAddress": "https://identityservice.commerce.{{environment}}.internal.norce.tech/connect/token",
+    "api":{
+      "identityAddress": "https://{{slug}}.api-se.playground.norce.tech/identity/1.0",
       "identityClientId": "{{commerceIdentityClientId}}",
       "identityClientSecret": "{{commerceIdentityClientSecret}}",
-      "identityScope": "lab"
+      "identityScope": "{{oauth_scope}}"
     },
     "application": {
       "productUrlPattern": "https://admin.commerce.{{environment}}.internal.norce.tech/product/detail/{productId}",

@@ -1,11 +1,11 @@
 meta {
-  name: Complete Payment
+  name: [Norce Adapter] Validate in Commerce
   type: http
-  seq: 6
+  seq: 7
 }
 
 post {
-  url: {{nonpspAdapterUrl}}/api/checkout/v1/orders/{{orderId}}/payments/{{paymentId}}/complete
+  url: {{norceAdapterUrl}}/api/v1/orders/{{orderId}}/validate
   body: none
   auth: bearer
 }

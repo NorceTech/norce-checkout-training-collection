@@ -1,0 +1,243 @@
+meta {
+  name: Configure NC & Klarna
+  type: http
+  seq: 1
+}
+
+put {
+  url: {{configurationUrl}}/api/v1/configuration/merchants/{{merchant}}/channels/{{channel}}/configurations
+  body: json
+  auth: bearer
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  [
+    {
+      "$schema": "https://{{slug}}.checkoutadmin-se.playground.norce.tech/api/schemas/v1/admin_meta_schema.json?v=1",
+      "id": "admin_meta",
+      "configs": [
+        {
+          "schema": "https://{{slug}}.api-se.playground.norce.tech/checkout/norce-adapter/openapi/v1/schemas/norce_adapter.json",
+          "id": "norce_commerce",
+          "imgUrl": "https://media.test.cdn-norce.tech/1000/728e73aa-aebd-4a33-ae00-e961366d109a",
+          "tags": [
+            "Platform"
+          ]
+        },
+        {
+          "schema": "https://{{slug}}.api-se.playground.norce.tech/checkout/walley-adapter/openapi/v1/schemas/walley_checkout_adapter.json",
+          "id": "klarna_checkout",
+          "imgUrl": "https://media.test.cdn-norce.tech/1000/958bb38b-1f73-4416-9e63-b912a0aa7f4f",
+          "tags": [
+            "Payment",
+            "Shipping"
+          ]
+        }
+      ],
+      "active": true
+    },
+    {
+      "$schema": "https://checkout-configuration.test.norce.tech/openapi/v1/schemas/configuration.json",
+      "id": "checkout_application",
+      "showPricesIncludingVat": true,
+      "active": true
+    },
+    {
+      "$schema": "https://checkout-configuration.test.norce.tech/openapi/v1/schemas/configuration.json",
+      "id": "checkout_layout_confirmation",
+      "type": "container",
+      "elements": [
+        {
+          "type": "header"
+        },
+        {
+          "type": "confirmation"
+        }
+      ],
+      "active": true
+    },
+    {
+      "$schema": "https://checkout-configuration.test.norce.tech/openapi/v1/schemas/configuration.json",
+      "id": "checkout_layout_order",
+      "type": "container",
+      "elements": [
+        {
+          "type": "header"
+        },
+        {
+          "id": "grid",
+          "type": "container",
+          "elements": [
+            {
+              "id": "grid-column-1",
+              "type": "container",
+              "elements": [
+                {
+                  "type": "cart"
+                },
+                {
+                  "type": "summary"
+                },
+                {
+                  "type": "discount"
+                }
+              ]
+            },
+            {
+              "id": "grid-column-2",
+              "type": "container",
+              "elements": [
+                {
+                  "type": "payment"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "active": true
+    },
+    {
+      "$schema": "https://checkout-configuration.test.norce.tech/openapi/v1/schemas/configuration.json",
+      "id": "checkout_meta_confirmation",
+      "head": [],
+      "active": true
+    },
+    {
+      "$schema": "https://checkout-configuration.test.norce.tech/openapi/v1/schemas/configuration.json",
+      "id": "checkout_meta_order",
+      "head": [
+        {
+          "title": "Order | Norce Checkout Demo"
+        },
+        {
+          "tagName": "meta",
+          "name": "description",
+          "content": "Some meta description"
+        },
+        {
+          "tagName": "style",
+          "__html": "\"#grid {\\n   display: grid;\\n   margin-left: auto;\\n   margin-right: auto;\\n   gap: 4rem;\\n}\\n#grid-column-1 {\\n  padding: 0 1rem;\\n  height: min-content;\\n  animation: fade-in 0.5s ease-in-out;\\n  border-radius: 0.25rem;\\n}\\n#grid-column-2 {\\n  display: grid;\\n  gap: 2rem;\\n}\\n  \\n@media (min-width: 1280px) {\\n  #grid {\\n    grid-template-columns: auto 396px;\\n    margin-top: 3rem;\\n    max-width: 80rem;\\n  }\\n  #grid-column-1 {\\n    position: sticky;\\n    top: 2rem;\\n    grid-column-start: 2;\\n    padding: 1rem;\\n  }\\n  #grid-column-2 {\\n    grid-row-start: 1;\\n    grid-column-start: 1;\\n  }\\n}\""
+        }
+      ],
+      "active": true
+    },
+    {
+      "$schema": "https://checkout-configuration.test.norce.tech/openapi/v1/schemas/configuration.json",
+      "id": "checkout_meta_root",
+      "head": [
+        {
+          "tagName": "style",
+          "__html": "\"html {\\n  --logo-url: url(https://www.demostore.se/se/production/images/norcelog.svg);\\n}\\n#header img {\\n  width: 6rem;\\n}\""
+        }
+      ],
+      "active": true
+    },
+    {
+      "$schema": "https://{{slug}}.api-se.playground.norce.tech/checkout/norce-adapter/openapi/v1/schemas/norce_adapter.json",
+      "id": "norce_adapter",
+      "active": true,
+      "adapter": {
+        "internalUrl": "https://norce-adapter.checkout.playground.internal.norce.tech",
+        "publicUrl": "https://{{slug}}.api-se.playground.norce.tech/checkout/norce-adapter"
+      },
+      "settings": {
+        "clientId": {{commerceClientId}},
+    "applicationId": {{commerceApplicationId}}
+  },
+    "api": {
+    "identityAddress": "https://{{slug}}.api-se.playground.norce.tech/identity/1.0",
+    "identityClientId": "43306981-0d42-4d35-b57f-cffa5fd9e48b",
+    "identityClientSecret": "e88f0508-a864-4541-ba48-ffd58fd1153f",
+    "identityScope": "playground"
+  },
+    "application": {
+    "productUrlPattern": "https://admin.commerce.playground.norce.tech/product/detail/{productId}",
+    "imageBaseUrl": "https://{{slug}}.test.cdn-norce.tech/{{commerceClientId}}"
+  },
+    "country": {
+    "defaultCountry": "SE"
+  },
+    "features": {
+    "shippingChangedHookEnabled": true
+  }
+    },
+    {
+      "$schema": "{{klarnaAdapterUrl}}/openapi/v1/schemas/klarna_checkout_adapter.json",
+      "id": "klarna_checkout_adapter",
+      "active": true,
+      "adapter": {
+        "internalUrl": "https://klarna-adapter.checkout.{{environment}}.internal.norce.tech",
+        "publicUrl": "{{klarnaAdapterUrl}}"
+      },
+      "apiSettings": {
+        "apiUrl": "https://api.playground.klarna.com",
+        "username": "{{klarnaUsername}}",
+        "password": "{{klarnaPassword}}"
+      },
+      "redirectUrls": {
+        "termsUrl": "https://app.checkout.test.internal.norce.tech/terms?merchant={merchant}&channel={channel}",
+        "checkoutUrl": "https://app.checkout.test.internal.norce.tech/newcheckout?orderId={orderId}&merchant={merchant}&channel={channel}",
+        "confirmationUrl": "https://app.checkout.test.internal.norce.tech/neworderconfirmation?orderId={orderId}&merchant={merchant}&channel={channel}",
+        "validationErrorUrl": "https://app.checkout.test.internal.norce.tech/newcheckout?orderId={orderId}&merchant={merchant}&channel={channel}&error=true"
+      },
+      "options": {
+        "requireValidateCallbackSuccess": true,
+        "requireClientValidation": true,
+        "acquiringChannel": "ECOMMERCE",
+        "vatRemoved": false,
+        "allowSeparateShippingAddress": false,
+        "dateOfBirthMandatory": false,
+        "shippingDetails": "Delivered within 1-3 working days",
+        "titleMandatory": false,
+        "nationalIdentificationNumberMandatory": false,
+        "additionalMerchantTerms": "This is a test shop and no actual order will be made",
+        "phoneMandatory": false,
+        "radiusBorder": "5",
+        "allowedCustomerTypes": [
+          "person",
+          "organization"
+        ],
+        "showSubtotalDetail": false,
+        "verifyNationalIdentificationNumber": false,
+        "showVatRegistrationNumberField": false
+      },
+      "shippingCountries": [
+        "SE"
+      ],
+      "shippingOptions": [
+        {
+          "id": "3001",
+          "name": "Basic Shipping",
+          "description": "Basic Shipping for testing",
+          "price": 9500,
+          "taxAmount": 1900,
+          "taxRate": 2500,
+          "preselected": true,
+          "shippingMethod": "Postal"
+        },
+        {
+          "id": "3002",
+          "name": "Generic Shipping",
+          "description": "Generic Shipping for testing",
+          "price": 2000,
+          "taxAmount": 400,
+          "taxRate": 2500,
+          "preselected": false,
+          "shippingMethod": "PickUpStore"
+        }
+      ],
+      "externalPaymentMethods": [],
+      "providesShipping": true
+    }
+  ]
+}

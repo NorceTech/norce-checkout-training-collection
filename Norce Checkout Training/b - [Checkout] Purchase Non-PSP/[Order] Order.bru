@@ -1,11 +1,11 @@
 meta {
-  name: Non-PSP Payment
+  name: [Order] Order
   type: http
-  seq: 3
+  seq: 2
 }
 
-post {
-  url: {{nonpspAdapterUrl}}/api/checkout/v1/orders/{{orderId}}/payments
+get {
+  url: {{orderUrl}}/api/v0/checkout/orders/{{orderId}}
   body: none
   auth: bearer
 }
@@ -20,5 +20,5 @@ auth:bearer {
 }
 
 vars:post-response {
-  paymentId: res.body.paymentId
+  cartItemId: res.body.cart.items[0].id
 }

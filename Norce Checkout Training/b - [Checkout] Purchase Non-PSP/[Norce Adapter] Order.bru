@@ -1,11 +1,11 @@
 meta {
-  name: Order
+  name: [Norce Adapter] Order
   type: http
-  seq: 2
+  seq: 5
 }
 
-get {
-  url: {{orderUrl}}/api/v0/checkout/orders/{{orderId}}
+put {
+  url: {{norceAdapterUrl}}/api/v1/orders/{{orderId}}
   body: none
   auth: bearer
 }
@@ -17,8 +17,4 @@ headers {
 
 auth:bearer {
   token: {{token}}
-}
-
-vars:post-response {
-  cartItemId: res.body.cart.items[0].id
 }
