@@ -1,18 +1,18 @@
 meta {
-  name: [Shopping] Update payment method
+  name: [Shopping] Update Buyer
   type: http
-  seq: 5
+  seq: 4
 }
 
 post {
-  url: {{commerceShoppingServiceUrl}}/UpdatePaymentMethod?paymentMethodId=239&basketId={{basketId}}
-  body: none
+  url: {{commerceShoppingServiceUrl}}/UpdateBuyer?basketId={{basketId}}&updatedBy=1
+  body: json
   auth: bearer
 }
 
 params:query {
-  paymentMethodId: 239
   basketId: {{basketId}}
+  updatedBy: 1
 }
 
 headers {
@@ -42,5 +42,4 @@ body:json {
 
 assert {
   res.status: eq 200
-  res('Basket.Id'): eq {{basketId}}
 }

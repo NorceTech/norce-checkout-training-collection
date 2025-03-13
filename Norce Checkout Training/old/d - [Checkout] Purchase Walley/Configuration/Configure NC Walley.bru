@@ -45,103 +45,7 @@ body:json {
       ],
       "active": true
     },
-    {
-      "$schema": "https://checkout-configuration.test.norce.tech/openapi/v1/schemas/configuration.json",
-      "id": "checkout_application",
-      "showPricesIncludingVat": true,
-      "active": true
-    },
-    {
-      "$schema": "https://checkout-configuration.test.norce.tech/openapi/v1/schemas/configuration.json",
-      "id": "checkout_layout_confirmation",
-      "type": "container",
-      "elements": [
-        {
-          "type": "header"
-        },
-        {
-          "type": "confirmation"
-        }
-      ],
-      "active": true
-    },
-    {
-      "$schema": "https://checkout-configuration.test.norce.tech/openapi/v1/schemas/configuration.json",
-      "id": "checkout_layout_order",
-      "type": "container",
-      "elements": [
-        {
-          "type": "header"
-        },
-        {
-          "id": "grid",
-          "type": "container",
-          "elements": [
-            {
-              "id": "grid-column-1",
-              "type": "container",
-              "elements": [
-                {
-                  "type": "cart"
-                },
-                {
-                  "type": "summary"
-                },
-                {
-                  "type": "discount"
-                }
-              ]
-            },
-            {
-              "id": "grid-column-2",
-              "type": "container",
-              "elements": [
-                {
-                  "type": "payment"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "active": true
-    },
-    {
-      "$schema": "https://checkout-configuration.test.norce.tech/openapi/v1/schemas/configuration.json",
-      "id": "checkout_meta_confirmation",
-      "head": [],
-      "active": true
-    },
-    {
-      "$schema": "https://checkout-configuration.test.norce.tech/openapi/v1/schemas/configuration.json",
-      "id": "checkout_meta_order",
-      "head": [
-        {
-          "title": "Order | Norce Checkout Demo"
-        },
-        {
-          "tagName": "meta",
-          "name": "description",
-          "content": "Some meta description"
-        },
-        {
-          "tagName": "style",
-          "__html": "\"#grid {\\n   display: grid;\\n   margin-left: auto;\\n   margin-right: auto;\\n   gap: 4rem;\\n}\\n#grid-column-1 {\\n  padding: 0 1rem;\\n  height: min-content;\\n  animation: fade-in 0.5s ease-in-out;\\n  border-radius: 0.25rem;\\n}\\n#grid-column-2 {\\n  display: grid;\\n  gap: 2rem;\\n}\\n  \\n@media (min-width: 1280px) {\\n  #grid {\\n    grid-template-columns: auto 396px;\\n    margin-top: 3rem;\\n    max-width: 80rem;\\n  }\\n  #grid-column-1 {\\n    position: sticky;\\n    top: 2rem;\\n    grid-column-start: 2;\\n    padding: 1rem;\\n  }\\n  #grid-column-2 {\\n    grid-row-start: 1;\\n    grid-column-start: 1;\\n  }\\n}\""
-        }
-      ],
-      "active": true
-    },
-    {
-      "$schema": "https://checkout-configuration.test.norce.tech/openapi/v1/schemas/configuration.json",
-      "id": "checkout_meta_root",
-      "head": [
-        {
-          "tagName": "style",
-          "__html": "\"html {\\n  --logo-url: url(https://www.demostore.se/se/production/images/norcelog.svg);\\n}\\n#header img {\\n  width: 6rem;\\n}\""
-        }
-      ],
-      "active": true
-    },
+   
     {
       "$schema": "https://{{slug}}.api-se.playground.norce.tech/checkout/norce-adapter/openapi/v1/schemas/norce_adapter.json",
       "id": "id_adapter",
@@ -191,7 +95,7 @@ body:json {
       },
       "application": {
         "productUrlPattern": "https://admin.commerce.playground.norce.tech/product/detail/{productId}",
-        "imageBaseUrl": "https://{{slug}}.test.cdn-norce.tech/{{commerceClientId}}"
+        "imageBaseUrl": "https://media.test.cdn-norce.tech/{{commerceClientId}}"
       },
       "country": {
         "defaultCountry": "SE"
@@ -216,7 +120,7 @@ body:json {
       },
       "redirectUrls": {
         "merchantTermsUri": "https://norce.io/terms?merchant={merchant}&channel={channel}",
-        "redirectPageUri": "https://norce.io/newcheckout?orderId={orderId}&merchant={merchant}&channel={channel}",
+        "redirectPageUri": "http://localhost:4200/confirmation?orderId={orderId}",
         "validationUri": "https://{{slug}}.api-se.playground.norce.tech/checkout/walley-adapter",
         "checkoutAbortedRedirectPageUri": "https://norce.io?orderId={orderId}&merchant={merchant}&channel={channel}",
         "notificationUri": "https://checkout-walley-adapter.test.norce.tech"
