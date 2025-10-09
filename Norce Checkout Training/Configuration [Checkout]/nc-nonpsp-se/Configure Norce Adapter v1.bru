@@ -1,0 +1,56 @@
+meta {
+  name: Configure Norce Adapter v1
+  type: http
+  seq: 1
+}
+
+put {
+  url: {{configurationUrl}}/api/v1/configuration/merchants/{{merchant}}/channels/{{channel}}/configurations/norce_adapter
+  body: json
+  auth: bearer
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "$schema": "{{norceAdapterUrl}}/openapi/v1/schemas/norce_adapter.json",
+    "id": "norce_adapter",
+    "active": true,
+    "adapter": {
+      "internalUrl": "https://norce-adapter.checkout.{{internal_environment}}.internal.norce.tech",
+      "publicUrl": "{{norceAdapterUrl}}"
+    },
+    "settings": {
+      "clientId": {{commerceClientId}},
+      "applicationId": {{commerceApplicationId}}
+    },
+    "api": {
+      "identityAddress": "https://{{slug}}.api-se{{environment}}.norce.tech/identity/1.0",
+      "identityClientId": "{{commerceIdentityClientId}}",
+      "identityClientSecret": "{{commerceIdentityClientSecret}}",
+      "identityScope": "{{commerceIdentityScope}}"
+    },
+    "application": {
+      "productUrlPattern": "https://admin.commerce.{{internal_environment}}.internal.norce.tech/product/detail/{productId}",
+      "imageBaseUrl": "https://media{{environment}}.cdn-norce.tech/{{commerceClientId}}"
+    },
+    "country": {
+      "defaultCountry": "{{countryCodeXX}}"
+    },
+    "features": {
+      "shippingChangedHookEnabled": true
+    },
+    "adapter": {
+      "internalUrl": "https://norce-adapter.checkout.{{internal_environment}}.internal.norce.tech",
+      "publicUrl": "{{norceAdapterUrl}}"
+    }
+  }
+}

@@ -1,0 +1,275 @@
+meta {
+  name: Reset Configurations
+  type: http
+  seq: 10
+}
+
+put {
+  url: {{configurationUrl}}/api/v1/configuration/merchants/{{merchant}}/channels/{{channel}}/configurations
+  body: json
+  auth: bearer
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  [
+    {
+      "$schema": "http://admin.checkout.playground.internal.norce.tech/api/schemas/v1/admin_meta_schema.json",
+      "id": "admin_meta",
+      "configs": [
+        {
+          "schema": "https://norce-open-demo.api-se.playground.norce.tech/checkout/norce-adapter/openapi/v1/schemas/norce_adapter.json",
+          "id": "norce_adapter",
+          "imgUrl": "https://media.test.cdn-norce.tech/1000/728e73aa-aebd-4a33-ae00-e961366d109a",
+          "tags": [
+            "Platform"
+          ]
+        },
+        {
+          "schema": "https://norce-open-demo.api-se.playground.norce.tech/checkout/nonpsp-adapter/openapi/v1/schemas/nonpsp_adapter.json",
+          "id": "nonpsp_adapter",
+          "tags": [
+            "Payment"
+          ]
+        }
+      ],
+      "active": true
+    },
+    {
+      "$schema": "https://checkout-configuration.test.norce.tech/openapi/v1/schemas/configuration.json",
+      "id": "checkout_application",
+      "showPricesIncludingVat": true,
+      "active": true
+    },
+    {
+      "$schema": "https://checkout-configuration.test.norce.tech/openapi/v1/schemas/configuration.json",
+      "id": "checkout_layout_confirmation",
+      "type": "container",
+      "elements": [
+        {
+          "type": "header"
+        },
+        {
+          "type": "confirmation"
+        }
+      ],
+      "active": true
+    },
+    {
+      "$schema": "https://checkout-configuration.test.norce.tech/openapi/v1/schemas/configuration.json",
+      "id": "checkout_layout_order",
+      "type": "container",
+      "elements": [
+        {
+          "type": "header"
+        },
+        {
+          "id": "grid",
+          "type": "container",
+          "elements": [
+            {
+              "id": "grid-column-1",
+              "type": "container",
+              "elements": [
+                {
+                  "type": "cart"
+                },
+                {
+                  "type": "summary"
+                },
+                {
+                  "type": "discount"
+                }
+              ]
+            },
+            {
+              "id": "grid-column-2",
+              "type": "container",
+              "elements": [
+                {
+                  "type": "payment"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "active": true
+    },
+    {
+      "$schema": "https://checkout-configuration.test.norce.tech/openapi/v1/schemas/configuration.json",
+      "id": "checkout_meta_confirmation",
+      "head": [],
+      "active": true
+    },
+    {
+      "$schema": "https://checkout-configuration.test.norce.tech/openapi/v1/schemas/configuration.json",
+      "id": "checkout_meta_order",
+      "head": [
+        {
+          "title": "Order | Norce Checkout Demo"
+        },
+        {
+          "tagName": "meta",
+          "name": "description",
+          "content": "Some meta description"
+        },
+        {
+          "tagName": "style",
+          "__html": "\"#grid {\\n   display: grid;\\n   margin-left: auto;\\n   margin-right: auto;\\n   gap: 4rem;\\n}\\n#grid-column-1 {\\n  padding: 0 1rem;\\n  height: min-content;\\n  animation: fade-in 0.5s ease-in-out;\\n  border-radius: 0.25rem;\\n}\\n#grid-column-2 {\\n  display: grid;\\n  gap: 2rem;\\n}\\n  \\n@media (min-width: 1280px) {\\n  #grid {\\n    grid-template-columns: auto 396px;\\n    margin-top: 3rem;\\n    max-width: 80rem;\\n  }\\n  #grid-column-1 {\\n    position: sticky;\\n    top: 2rem;\\n    grid-column-start: 2;\\n    padding: 1rem;\\n  }\\n  #grid-column-2 {\\n    grid-row-start: 1;\\n    grid-column-start: 1;\\n  }\\n}\""
+        }
+      ],
+      "active": true
+    },
+    {
+      "$schema": "https://checkout-configuration.test.norce.tech/openapi/v1/schemas/configuration.json",
+      "id": "checkout_meta_root",
+      "head": [
+        {
+          "tagName": "style",
+          "__html": "\"html {\\n  --logo-url: url(https://www.demostore.se/se/production/images/norcelog.svg);\\n}\\n#header img {\\n  width: 6rem;\\n}\""
+        }
+      ],
+      "active": true
+    },
+    {
+      "$schema": "https://norce-open-demo.api-se.playground.norce.tech/checkout/norce-adapter/openapi/v1/schemas/norce_adapter.json",
+      "id": "id_adapter",
+      "active": true,
+      "adapter": {
+        "internalUrl": "https://norce-adapter.checkout.playground.internal.norce.tech",
+        "publicUrl": "https://norce-open-demo.api-se.playground.norce.tech/checkout/norce-adapter"
+      },
+      "settings": {
+        "clientId": 1000,
+        "applicationId": 1042
+      },
+      "api": {
+        "identityAddress": "https://norce-open-demo.api-se.playground.norce.tech/identity/1.0",
+        "identityClientId": "bbd0c062-2bd8-46f2-9b9b-6d13c4caf14e",
+        "identityClientSecret": "e152968f-cde7-4f88-ab21-57293a2ccda2",
+        "identityScope": "lab"
+      },
+      "application": {
+        "productUrlPattern": "https://admin.commerce.playground.internal.norce.tech/product/detail/{productId}",
+        "imageBaseUrl": "https://norce-open-demo.test.cdn-norce.tech/1000"
+      },
+      "country": {
+        "defaultCountry": "SE"
+      },
+      "features": {
+        "shippingChangedHookEnabled": true
+      }
+    },
+    {
+      "$schema": "https://nonpsp-adapter.checkout.playground.internal.norce.tech/openapi/v1/schemas/nonpsp_adapter.json",
+      "id": "nonpsp_adapter",
+      "active": true,
+      "adapter": {
+        "internalUrl": "https://nonpsp-adapter.checkout.playground.internal.norce.tech",
+        "publicUrl": "https://norce-open-demo.api-se.playground.norce.tech/checkout/nonpsp-adapter"
+      },
+      "redirectUrls": {
+        "checkoutUrl": "https://app.checkout.test.internal.norce.tech/newcheckout?orderId={orderId}&merchant={merchant}&channel={channel}",
+        "confirmationUrl": "https://app.checkout.test.internal.norce.tech/neworderconfirmation?orderId={orderId}&merchant={merchant}&channel={channel}"
+      },
+      "methods": [
+        {
+          "identifier": "invoice",
+          "preSelected": true
+        },
+        {
+          "identifier": "aggregate-invoice",
+          "preSelected": false
+        },
+        {
+          "identifier": "account-credit",
+          "preSelected": false
+        }
+      ]
+    },
+    {
+      "$schema": "https://norce-open-demo.api-se.playground.norce.tech/checkout/norce-adapter/openapi/v2/schemas/norce_adapter.json",
+      "id": "norce_adapter",
+      "active": true,
+      "adapter": {
+        "internalUrl": "https://norce-adapter.checkout.playground.internal.norce.tech",
+        "publicUrl": "https://norce-open-demo.api-se.playground.norce.tech/checkout/norce-adapter"
+      },
+      "settings": {
+        "clientId": 1000,
+        "applicationId": 1042
+      },
+      "api": {
+        "identityAddress": "https://norce-open-demo.api-se.playground.norce.tech/identity/1.0",
+        "identityClientId": "bbd0c062-2bd8-46f2-9b9b-6d13c4caf14e",
+        "identityClientSecret": "e152968f-cde7-4f88-ab21-57293a2ccda2",
+        "identityScope": "playground"
+      },
+      "application": {
+        "productUrlPattern": "https://admin.commerce.playground.internal.norce.tech/product/detail/{productId}",
+        "imageBaseUrl": "https://norce-open-demo.test.cdn-norce.tech/1000"
+      },
+      "country": {
+        "defaultCountry": "SE"
+      },
+      "features": {
+        "mapShippingFromNorceCommerce": true
+      }
+    },
+  
+    {
+      "$schema": "https://norce-open-demo.api-se.playground.norce.tech/checkout/walley-adapter/openapi/v1/schemas/walley_checkout_adapter.json",
+      "id": "walley_checkout_adapter",
+      "apiSettings": {
+        "clientId": "7eba8c54-ea5e-4400-8b49-94b64f5485e9",
+        "apiUrl": "https://api.uat.walleydev.com",
+        "authenticationUrl": "https://api.uat.walleydev.com",
+        "frontEndUrl": "https://checkout.uat.walleydev.com",
+        "scope": "705798e0-8cef-427c-ae00-6023deba29af/.default",
+        "apiSecret": "lfN8Q~HoBVTInjgQPzq60TsV6-loKqBFBq8Lvcws",
+        "useDeliveryModule": true,
+        "storeId-SE-B2C": "5538",
+        "storeId-SE-B2B": "5539"
+      },
+      "redirectUrls": {
+        "merchantTermsUri": "https://norce.io/terms?merchant={merchant}&channel={channel}",
+        "redirectPageUri": "https://norce.io/newcheckout?orderId={orderId}&merchant={merchant}&channel={channel}",
+        "validationUri": "https://norce-open-demo.api-se.playground.norce.tech/checkout/walley-adapter",
+        "checkoutAbortedRedirectPageUri": "https://norce.io?orderId={orderId}&merchant={merchant}&channel={channel}",
+        "notificationUri": "https://checkout-walley-adapter.test.norce.tech"
+      },
+      "options": {
+        "discountText": {
+          "sv-SE": "Rabatt",
+          "fi-FI": "Alennus",
+          "nb-NO": "Rabatt",
+          "da-DK": "Rabat",
+          "de-DE": "Rabatte",
+          "en-GB": "Discount"
+        },
+        "voucherText": {
+          "sv-SE": "Presentkort",
+          "fi-FI": "Lahjakortit",
+          "nb-NO": "Gavekort",
+          "da-DK": "Gavekort",
+          "de-DE": "Geschenkgutschein",
+          "en-GB": "Gift voucher"
+        }
+      },
+      "adapter": {
+        "internalUrl": "https://walley-adapter.checkout.playground.internal.norce.tech",
+        "publicUrl": "https://norce-open-demo.api-se.playground.norce.tech/checkout/walley-adapter"
+      },
+      "active": true
+    }
+  ]
+}

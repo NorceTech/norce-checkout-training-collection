@@ -1,0 +1,17 @@
+:root { --gap:16px; }
+* { box-sizing: border-box; }
+body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color:#222; }
+header { padding:16px; border-bottom:1px solid #eee; display:grid; gap:8px; }
+header h1 { margin:0; font-size:18px; }
+.row { display:grid; gap:8px; grid-template-columns: 1fr auto; align-items: start; }
+textarea { width:100%; min-height:100px; padding:10px; border:1px solid #ccc; border-radius:10px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.btn { padding:10px 14px; border:1px solid #333; border-radius:10px; background:#fff; cursor:pointer; }
+.btn.small { padding:6px 10px; font-size:12px; border-color:#aaa; }
+.helper { color:#666; font-size:12px; }
+.grid { display:grid; grid-template-columns: 2fr 1fr; height: calc(100vh - 170px); }
+.left, .right { padding:var(--gap); overflow:auto; }
+.left { border-right:1px solid #eee; }
+h2 { margin:0 0 8px; font-size:16px; }
+#walley-container { min-height: 420px; }
+#log { white-space: pre-wrap; border:1px solid #ddd; background:#fafafa; padding:12px; border-radius:10px; min-height:200px; font-size:13px; display:none; }
+.toggle { display:flex; align-items:center; gap:8px; font-size:13px; margin-top:8px; }

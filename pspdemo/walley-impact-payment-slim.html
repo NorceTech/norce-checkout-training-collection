@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Walley – “one paste” demo</title>
+
+    <link type="text/css" href="wipstyle.css" rel="stylesheet" />
+</head>
+<body>
+<header>
+    <h1>Walley Checkout – “one paste” demo</h1>
+    <div class="helper">1) Kör <em>initiate payment</em> i Bruno • 2) Klistra in hela JSON-svaret • 3) Klicka “Rendera checkout”</div>
+    <div class="row">
+      <textarea id="initJson" placeholder='Klistra in Bruno-svaret här…'>
+
+      </textarea>
+        <div>
+            <button class="btn" id="btnRender">Rendera checkout</button>
+            <div class="toggle">
+                <input type="checkbox" id="chkLog" />
+                <label for="chkLog">Visa eventlogg (avancerat)</label>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="grid">
+    <!-- Vänster: snippeten renderar i iFrame här -->
+    <section class="left">
+        <h2>Checkout</h2>
+        <div id="walley-container"></div>
+    </section>
+
+    <!-- Höger: valfri eventlogg -->
+    <section class="right">
+        <h2>Eventlogg</h2>
+        <div id="log" aria-live="polite"></div>
+        <div class="helper">Dold som standard för att inte stjäla fokus i demon.</div>
+    </section>
+</div>
+
+<script>
+    // === UI helpers ===
+    const $ = (id) => document.getElementById(id);
+    const ts = () => new Date().toISOString().replace('T',' ').replace('Z','');
+    const log = (msg, data) => {
+        const el = $('log');
+        if (el.style.display !== 'none') {
+            const line = `[${ts()}] ${msg}` + (data ? `\n${typeof data === 'string' ? data : JSON.stringify(data, null, 2)}` : '');
+            el.textContent = line + '\n\n' + el.textContent;
+        }
+        // även om loggen är dold vill vi inte göra något; fokus är “one paste”
+    };
+    $('chkLog').addEventListener('change', () => {
+        $('log').style.display = $('chkLog').checked ? 'block' : 'none';
+    });
+
+    // === Parse & inject ===
+    function parseInitiateJson(text) {
+        const j = JSON.parse(text);
+        if (!j || !j.htmlSnippet) throw new Error("JSON saknar htmlSnippet.");
+        return { paymentId: j.paymentId, publicToken: j.publicToken, htmlSnippet: j.htmlSnippet };
+    }
+
+    function extractAttrsFromSnippet(snippet) {
+        // superenkel parser för src, data-token, data-version
+        const src = /src="([^"]+)"/.exec(snippet)?.[1];
+        const token = /data-token="([^"]+)"/.exec(snippet)?.[1];
+        const version = /data-version="([^"]+)"/.exec(snippet)?.[1] || 'v2';
+        if (!src || !token) throw new Error("Kunde inte läsa src/data-token ur snippeten.");
+        return { src, token, version };
+    }
+
+    function injectWalleyLoader({ src, token, version }, containerId) {
+        // Skapa en ny script-tagg som Walley-loadern kräver
+        // Viktigt: lägg till data-container-id så iFramen renderas i #walley-container
+        const s = document.createElement('script');
+        s.src = src;
+        s.setAttribute('data-token', token);
+        s.setAttribute('data-version', version);
+        s.setAttribute('data-container-id', containerId);
+        // Tips: du kan även sätta t.ex. data-lang/data-padding etc. här om du vill
+
+        // Rensa ev tidigare iFrame (vid omrendering i demo)
+        const target = $(containerId);
+        while (target.previousSibling && target.previousSibling.tagName === 'IFRAME') {
+            target.previousSibling.remove();
+        }
+
+        // Lägg scriptet precis efter containern – Walley placerar iFramen "above itself"
+        target.insertAdjacentElement('afterend', s);
+    }
+
+    // === Minimal eventlogg (avancerat-läge) ===
+    const listener = (evt) => log(`Event: ${evt.type}`, evt.detail || evt.payload || null);
+    const wireEvents = () => {
+        document.addEventListener("walleyCheckoutPurchaseCompleted", listener);
+        document.addEventListener("walleyCheckoutCustomerUpdated", listener);
+        document.addEventListener("walleyCheckoutShippingUpdated", listener);
+        document.addEventListener("walleyCheckoutPaymentAborted", listener);
+        document.addEventListener("walleyCheckoutOrderValidationFailed", listener);
+        document.addEventListener("walleyCheckoutLocked", listener);
+        document.addEventListener("walleyCheckoutUnlocked", listener);
+        document.addEventListener("walleyCheckoutResumed", listener);
+    };
+    wireEvents(); // redan inkopplat, men dolt tills man kryssar i "Visa eventlogg"
+
+    // === Render-knapp ===
+    $('btnRender').addEventListener('click', () => {
+        try {
+            const { htmlSnippet } = parseInitiateJson($('initJson').value);
+            const attrs = extractAttrsFromSnippet(htmlSnippet);
+            injectWalleyLoader(attrs, 'walley-container');
+            log('Checkout renderad med given snippet.', attrs);
+        } catch (e) {
+            alert('Kunde inte rendera: ' + e.message);
+        }
+    });
+
+    // Bonus: om du vill spara/återanvända samma session i demon
+    // localStorage.setItem('walley-init-json', $('initJson').value);
+    // och vid load: $('initJson').value = localStorage.getItem('walley-init-json') ?? '';
+</script>
+</body>
+</html>

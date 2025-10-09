@@ -1,0 +1,33 @@
+meta {
+  name: [Order] Add Notification State Completed
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{orderUrl}}/api/v1/checkout/orders/{{orderId}}/notifications
+  body: json
+  auth: bearer
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "description": "Mail notification",
+    "scope": "/state/currentStatus",
+    "schema": {
+      "enum": [
+        "completed"
+      ]
+    },
+    "invoke": "https://webhook.site/aabc10ea-51ab-46c0-b4bc-a654cf260d99"
+  }
+}

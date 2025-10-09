@@ -1,0 +1,31 @@
+meta {
+  name: [Order] Get Order
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{orderUrl}}/api/v1/checkout/orders/{{orderId}}
+  body: none
+  auth: bearer
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+vars:post-response {
+  cartItemId: res.body.cart.items[0].id
+}
+
+tests {
+  test("Response contains property 'shipping'", () => {
+    expect(res.body).to.have.property("shippings");
+  });
+  
+}

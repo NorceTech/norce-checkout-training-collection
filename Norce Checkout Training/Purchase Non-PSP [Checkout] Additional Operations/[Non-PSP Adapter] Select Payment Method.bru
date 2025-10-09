@@ -1,0 +1,26 @@
+meta {
+  name: [Non-PSP Adapter] Select Payment Method
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{nonpspAdapterUrl}}/api/checkout/v1/orders/{{orderId}}/payments/{{paymentId}}
+  body: json
+  auth: bearer
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "selectedPaymentMethod": "account-credit"
+  }
+}

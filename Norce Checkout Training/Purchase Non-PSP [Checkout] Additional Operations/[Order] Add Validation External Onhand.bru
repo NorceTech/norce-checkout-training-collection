@@ -1,0 +1,27 @@
+meta {
+  name: [Order] Add Validation External Onhand
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{orderUrl}}/api/v1/checkout/orders/{{orderId}}/validations
+  body: json
+  auth: bearer
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "invoke": "https://webhook.site/aabc10ea-51ab-46c0-b4bc-a654cf260d99",
+    "adapterId": "onhand_verify"
+  }
+}

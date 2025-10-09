@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Walley ↔ Norce (frontend-demo)</title>
+    <style>
+        :root { --gap: 16px; }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            color: #222;
+        }
+        header {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e5e5e5;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        header h1 { margin: 0; font-size: 18px; }
+        .env { font-size: 12px; border:1px solid #ccc; border-radius: 999px; padding: 2px 10px; }
+        .config {
+            display: grid; gap: 8px; grid-template-columns: repeat(5, minmax(180px, 1fr)) auto;
+            width: 100%;
+        }
+        .config label { font-size: 12px; color:#555; display:block; margin-bottom:4px; }
+        .config input { width:100%; padding:8px; border:1px solid #ccc; border-radius:8px; }
+        .config .row { display:flex; flex-direction:column; }
+        .config .actions { display:flex; align-items:end; gap:8px; }
+        .btn {
+            padding: 10px 14px; border: 1px solid #ccc; border-radius: 10px; background: #fff; cursor: pointer;
+        }
+        .btn.primary { border-color:#333; }
+        .grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            height: calc(100vh - 140px);
+        }
+        .left, .right { padding: var(--gap); overflow: auto; }
+        .left { border-right: 1px solid #eee; }
+        h2 { margin: 0 0 8px; font-size: 16px; }
+        #log {
+            white-space: pre-wrap;
+            border: 1px solid #ddd;
+            background: #fafafa;
+            padding: 12px;
+            border-radius: 10px;
+            min-height: 200px;
+            font-size: 13px;
+        }
+        .switch {
+            display: inline-flex; align-items:center; gap:8px; margin-left:8px; font-size:13px;
+        }
+        .helper { color:#666; font-size:12px; margin-top:6px; }
+        .note { font-size:12px; color:#555; margin-top:8px; }
+        .inline { display:inline-block; }
+        .kicker { margin: 0 0 8px; color:#555; font-size: 13px; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Walley ↔ Norce (frontend-demo)</h1>
+    <span class="env">UAT</span>
+    <div class="config">
+        <div class="row">
+            <label for="orderId">order_id (Norce)</label>
+            <input id="orderId" placeholder="t.ex. O-12345" />
+        </div>
+        <div class="row">
+            <label for="paymentId">payment_id (från initialize)</label>
+            <input id="paymentId" value="pIOREsMrXtUJlKCBhiuLYatRxdA" />
+        </div>
+        <div class="row">
+            <label for="merchant">merchant</label>
+            <input id="merchant" placeholder="din-merchant-id" value="norce-open-demo" />
+        </div>
+        <div class="row">
+            <label for="channel">channel</label>
+            <input id="channel" placeholder="t.ex. web"  value="nc-walley-se" />
+        </div>
+        <div class="row">
+            <label for="adapterBase">Adapter-bas-URL</label>
+            <input id="adapterBase" value="https://checkout-walley-adapter.test.norce.tech" />
+        </div>
+        <div class="actions">
+            <button class="btn" id="btnValidate">Kalla /validation</button>
+            <button class="btn" id="btnNotify">Kalla /notification</button>
+        </div>
+    </div>
+</header>
+
+<div class="grid">
+    <!-- Vänster: Walley -->
+    <section class="left">
+        <h2>Checkout</h2>
+        <p class="kicker">iFrame här nedan är Walley Checkout <span class="inline switch">
+        <input type="checkbox" id="chkAutoSync" />
+        <label for="chkAutoSync">Synka fraktval till Norce (demo)</label>
+      </span></p>
+        <div id="walley-container"></div>
+
+        <!-- Walley loader (UAT) – ange din publicToken -->
+        <script
+                src="https://checkout.uat.walleydev.com/walley-checkout-loader.js"
+                data-token="public-SE-22a0b1212e400de4c1b575437111514bbffe6ae83e8fd51a"
+                data-version="v2"
+                data-container-id="walley-container">
+        </script>
+
+        <div class="note">
+            Tips: Om du ser CORS-varningar när du kallar adaptern direkt från browsern,
+            kör sidan via en lokal dev-server och/eller använd <code>mode:"no-cors"</code>
+            (nedan gör det automatiskt för demo).
+        </div>
+    </section>
+
+    <!-- Höger: eventlogg -->
+    <section class="right">
+        <h2>Eventlogg</h2>
+        <div id="log" aria-live="polite"></div>
+        <div class="helper">Nyast visas överst. “Synka fraktval” kallar backend-endpoints från klienten enbart för demo.</div>
+    </section>
+</div>
+<script>
+    // Bygg adapter-URLer
+    function buildBase(kind){
+        const base = $('adapterBase').value.trim().replace(/\/+$/,'');
+        const orderId = $('orderId').value.trim();
+        const paymentId = $('paymentId').value.trim();
+        const merchant = encodeURIComponent($('merchant').value.trim());
+        const channel  = encodeURIComponent($('channel').value.trim());
+        if (!base || !orderId || !paymentId || !merchant || !channel) {
+            throw new Error("Fyll i adapter-bas-URL, order_id, payment_id, merchant och channel.");
+        }
+        const path = `${base}/api/checkout/v1/callback/orders/${encodeURIComponent(orderId)}/payments/${encodeURIComponent(paymentId)}/${kind}`;
+        const qs = `?merchant=${merchant}&channel=${channel}&orderId=${encodeURIComponent(orderId)}`;
+        return path + qs;
+    }
+    const urls = {
+        shippingUpdate: () => buildBase("shipping-option-update"),
+        customerUpdate: () => buildBase("customer-update"),
+        validation: () => buildBase("validation"),
+        notification: () => buildBase("notification"),
+    };
+
+    // Små helpers
+    const delay = (ms) => new Promise(r => setTimeout(r, ms));
+    const fire = async (url) => {
+        log(`→ GET ${url}`);
+        // Din dev-proxy låter dig se allt i nätfliken. Använd 'no-cors' om du går direkt mot adapter utan proxy.
+        await fetch(url, { method: 'GET' });
+        log(`✓ skickat: ${url}`);
+    };
+
+    // Debounce (för att inte spruta 3–4 calls om Walley ger flera events)
+    let shipTimer = null;
+    function debounceShip(fn){
+        if (shipTimer) clearTimeout(shipTimer);
+        shipTimer = setTimeout(fn, 250);
+    }
+
+    // 1) Shipping ändrad i Walley → uppdatera Norce via adaptern
+    document.addEventListener("walleyCheckoutShippingUpdated", async (e) => {
+        log("Event: walleyCheckoutShippingUpdated", e.detail || e.payload || null);
+
+        // (Valfritt) inspektera aktuell shipping i Walley för logg
+        try {
+            const info = await (window.walley?.checkout?.api?.acquireCheckoutInformation?.() ?? Promise.resolve(null));
+            log("Walley shipping (client-API)", info?.data?.shipping ?? "(saknas)");
+        } catch {}
+
+        debounceShip(async () => {
+            try {
+                await fire(urls.shippingUpdate());
+                // Du kan om du vill följa upp med validation för demo-UX:
+                // await fire(urls.validation());
+            } catch (err) {
+                log("Fel vid shipping-option-update", String(err));
+            }
+        });
+    });
+
+    // 2) Kunddata ändrad (adress/ZIP påverkar frakt) → skicka customer-update
+    document.addEventListener("walleyCheckoutCustomerUpdated", async (e) => {
+        log("Event: walleyCheckoutCustomerUpdated", e.detail || e.payload || null);
+        try {
+            await fire(urls.customerUpdate());
+            // Ofta leder customer-update → nya fraktalternativ i Walley automatiskt;
+            // vill du “låsa” UI en stund kan du kombinera med Walley lock/unlock.
+        } catch (err) {
+            log("Fel vid customer-update", String(err));
+        }
+    });
+
+    // 3) När kunden faktiskt slutför köpet: låt backend ta validering/notification.
+    //    För DEMO kan du “poke:a” manuellt med knapparna du redan har.
+    document.addEventListener("walleyCheckoutPurchaseCompleted", (e) => {
+        log("Event: walleyCheckoutPurchaseCompleted", e.detail || e.payload || null);
+        // Här gör vi inget auto—backend callbacks är det som gäller i skarpt läge.
+    });
+</script>
+
+</body>
+</html>
