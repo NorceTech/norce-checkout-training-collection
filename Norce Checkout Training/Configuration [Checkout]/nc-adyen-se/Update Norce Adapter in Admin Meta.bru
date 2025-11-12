@@ -1,0 +1,38 @@
+meta {
+  name: Update Norce Adapter in Admin Meta
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{configurationUrl}}/api/v1/configuration/merchants/{{merchant}}/channels/{{channel}}/configurations/admin_meta
+  body: json
+  auth: bearer
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "$schema": "http://{{slug}}.checkoutadmin-se{{environment}}.norce.tech/api/schemas/v1/admin_meta_schema.json",
+    "id": "admin_meta",
+    "configs": [
+      {
+        "schema": "https://{{slug}}.api-se{{environment}}.norce.tech/checkout/norce-adapter/openapi/v2/schemas/norce_adapter.json",
+        "id": "norce_adapter",
+        "imgUrl": "/norce-logo-black.svg",
+        "tags": [
+          "Platform"
+        ]
+      }
+    ],
+    "active": true
+  }
+}

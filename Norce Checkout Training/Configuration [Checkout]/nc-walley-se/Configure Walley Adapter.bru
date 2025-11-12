@@ -42,6 +42,7 @@ body:json {
       "notificationUri": "https://checkout-walley-adapter{{environment}}.norce.tech"
     },
     "options": {
+      "customShippingReference": "shippingReference",
       "discountText": {
         "sv-SE": "Rabatt",
         "fi-FI": "Alennus",
@@ -61,11 +62,8 @@ body:json {
     },
     "adapter": {
       "internalUrl": "https://walley-adapter.checkout.{{internal_environment}}.internal.norce.tech",
-      "publicUrl": "{{walleyAdapterUrl}}"
-      
+      "publicUrl": "https://{{slug}}.api-se{{environment}}.norce.tech/checkout/walley-adapter"
     },
     "active": true
   }
-  
-  
 }

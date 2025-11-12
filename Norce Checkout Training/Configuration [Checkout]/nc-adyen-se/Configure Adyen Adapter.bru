@@ -1,0 +1,81 @@
+meta {
+  name: Configure Adyen Adapter
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{configurationUrl}}/api/v1/configuration/merchants/{{merchant}}/channels/{{channel}}/configurations/adyen_dropin_adapter
+  body: json
+  auth: bearer
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "$schema": "https://{{slug}}.api-se.playground.norce.tech/checkout/adyen-adapter/openapi/v1/schemas/adyen_dropin_adapter.json",
+    "id": "adyen_dropin_adapter",
+    "active": true,
+  
+    "environment": "{{adyenEnvironment}}",
+  
+    "adapter": {
+      "internalUrl": "https://adyen-adapter.checkout.{{internal_environment}}.internal.norce.tech",
+      "publicUrl": "https://{{slug}}.api-se{{environment}}.norce.tech/checkout/adyen-adapter"
+    },
+  
+    "apiSettings": {
+      "apiUrl": "{{adyenApiUrl}}",
+      "adyenApiKey": "{{adyenApiKey}}",
+      "adyenClientKey": "{{adyenClientKey}}",
+      "merchantAccount": "{{adyenMerchantAccount}}"
+    },
+  
+    "redirectUrls": {
+      "returnUrl": "{{adyenReturnUrl}}"
+    },
+  
+    "adyenOptions": {
+      "webhookHmacKey": "{{adyenWebhookHmacKey}}",
+      "useRecurringPayment": false
+    },
+  
+    "localizationOptions": {
+      "discountLocalizations": {
+        "sv-SE": "Rabatt",
+        "en-GB": "Discount",
+        "fi-FI": "Alennus",
+        "nb-NO": "Rabatt",
+        "da-DK": "Rabat",
+        "de-DE": "Rabatte"
+      },
+      "voucherLocalizations": {
+        "sv-SE": "Presentkort",
+        "en-GB": "Gift voucher",
+        "fi-FI": "Lahjakortit",
+        "nb-NO": "Gavekort",
+        "da-DK": "Gavekort",
+        "de-DE": "Geschenkgutschein"
+      }
+    },
+  
+    "paymentMethodsConfiguration": {
+      "card": {
+        "hasHolderName": true,
+        "holderNameRequired": false
+      },
+      "googlepay": {
+        "merchantId": "{{adyenGooglePayMerchantId}}"
+      }
+    }
+  }
+  
+}
