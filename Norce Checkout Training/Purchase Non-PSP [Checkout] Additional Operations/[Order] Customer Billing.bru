@@ -1,0 +1,39 @@
+meta {
+  name: [Order] Customer Billing
+  type: http
+  seq: 8
+}
+
+put {
+  url: {{orderUrl}}/api/v0/checkout/orders/{{orderId}}/customer/billing
+  body: json
+  auth: bearer
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "type": "Person",
+      "givenName": "Bill",
+      "familyName": "Billsson",
+      "streetAddress": "Billroad 10",
+      "postalCode": "41123",
+      "city": "Billsson",
+      "country": "se",
+      "phone": "+46 70 011 22 33",
+      "email": "bill@example.com",
+      "attributes": {
+          "nationalIdentificationNumber": null,
+          "dateOfBirth": null,
+          "vatId": null
+      }
+  }
+}

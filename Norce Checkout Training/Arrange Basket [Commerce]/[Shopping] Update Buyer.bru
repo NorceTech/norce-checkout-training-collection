@@ -1,0 +1,46 @@
+meta {
+  name: [Shopping] Update Buyer
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{commerceShoppingServiceUrl}}/UpdateBuyer?basketId={{basketId}}&updatedBy=1
+  body: json
+  auth: bearer
+}
+
+params:query {
+  basketId: {{basketId}}
+  updatedBy: 1
+}
+
+headers {
+  Content-Type: application/json
+  applicationId: {{commerceApplicationId}}
+}
+
+auth:bearer {
+  token: {{commerce_token}}
+}
+
+body:json {
+  {
+    "Email": "nora.ehandell@norce.io",
+    "FirstName": "Nora",
+    "LastName": "Ehandell",
+    "CellPhone": "0046701234567",
+    "InvoiceAddress": {
+      "Line1": "Kungsgatan 9",
+      "Line2": "Lajn två",
+      "Zip": "111 43",
+      "City": "Stockholm",
+      "CountryId": 1
+    },
+    "UseInvoiceAddressAsDeliveryAddress": true
+  }
+}
+
+assert {
+  res.status: eq 200
+}

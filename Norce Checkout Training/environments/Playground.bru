@@ -1,0 +1,39 @@
+vars {
+  orderUrl: https://{{slug}}.api-se{{environment}}.norce.tech/checkout/order
+  configurationUrl: https://{{slug}}.api-se{{environment}}.norce.tech/checkout/configuration
+  notificationUrl: https://{{slug}}.api-se{{environment}}.norce.tech/checkout/notification
+  norceAdapterUrl: https://{{slug}}.api-se{{environment}}.norce.tech/checkout/norce-adapter
+  nonpspAdapterUrl: https://{{slug}}.api-se{{environment}}.norce.tech/checkout/nonpsp-adapter
+  merchant: norce-open-demo
+  channel: nc-walley-se
+  environment: .playground
+  commerceShoppingServiceUrl: https://{{slug}}.api-se{{environment}}.norce.tech/commerce/shopping/1.1
+  commerceIdentityServiceUrl: https://{{slug}}.api-se{{environment}}.norce.tech/identity/1.0
+  commerceApplicationId: 1042
+  walleyApiUrl: https://api.uat.walleydev.com
+  walleyAuthenticationUrl: https://api.uat.walleydev.com
+  walleyFrontEndUrl: https://checkout.uat.walleydev.com
+  walleyAdapterUrl: https://{{slug}}.api-se{{environment}}.norce.tech/checkout/walley-adapter
+  commerceClientId: 1000
+  commerceIdentityScope: playground
+  internal_environment: playground
+  countryCodeXX: SE
+  slug: norce-open-demo
+  adyenEnvironment: test
+  adyenApiUrl: https://checkout-test.adyen.com
+  adyenReturnUrl: https://norce.io?orderId={orderId}&channel={channel}&merchant={merchant}
+  adyenGooglePayMerchantId: 123
+  adyenAdapterUrl: https://{{slug}}.api-se{{environment}}.norce.tech/checkout/adyen-adapter
+}
+vars:secret [
+  walleyScope,
+  commerceIdentityClientId,
+  commerceIdentityClientSecret,
+  token,
+  walleyApiSecret,
+  walleyClientId,
+  adyenApiKey,
+  adyenClientKey,
+  adyenMerchantAccount,
+  adyenWebhookHmacKey
+]

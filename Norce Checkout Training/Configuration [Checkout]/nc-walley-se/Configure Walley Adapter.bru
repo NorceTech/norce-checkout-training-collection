@@ -1,0 +1,69 @@
+meta {
+  name: Configure Walley Adapter
+  type: http
+  seq: 3
+}
+
+put {
+  url: {{configurationUrl}}/api/v1/configuration/merchants/{{merchant}}/channels/{{channel}}/configurations/walley_checkout_adapter
+  body: json
+  auth: bearer
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "$schema": "https://{{slug}}.api-se.playground.norce.tech/checkout/walley-adapter/openapi/v1/schemas/walley_checkout_adapter.json",
+    "id": "walley_checkout_adapter",
+    "apiSettings": {
+      "clientId": "{{walleyClientId}}",
+      "apiUrl": "{{walleyApiUrl}}",
+      "authenticationUrl": "{{walleyAuthenticationUrl}}",
+      "frontEndUrl": "{{walleyFrontEndUrl}}",
+      "scope": "{{walleyScope}}",
+      "apiSecret": "{{walleyApiSecret}}",
+      "useDeliveryModule": true,
+      "storeId-SE-B2C": "5538",
+      "storeId-SE-B2B": "5539"
+    },
+    "redirectUrls": {
+      "merchantTermsUri": "https://norce.io/terms?merchant={merchant}&channel={channel}",
+      "redirectPageUri": "https://norce.io/newcheckout?orderId={orderId}&merchant={merchant}&channel={channel}",
+      "validationUri": "https://norce-open-demo.api-se.playground.norce.tech/checkout/walley-adapter",
+      "checkoutAbortedRedirectPageUri": "https://norce.io?orderId={orderId}&merchant={merchant}&channel={channel}",
+      "notificationUri": "https://checkout-walley-adapter{{environment}}.norce.tech"
+    },
+    "options": {
+      "customShippingReference": "shippingReference",
+      "discountText": {
+        "sv-SE": "Rabatt",
+        "fi-FI": "Alennus",
+        "nb-NO": "Rabatt",
+        "da-DK": "Rabat",
+        "de-DE": "Rabatte",
+        "en-GB": "Discount"
+      },
+      "voucherText": {
+        "sv-SE": "Presentkort",
+        "fi-FI": "Lahjakortit",
+        "nb-NO": "Gavekort",
+        "da-DK": "Gavekort",
+        "de-DE": "Geschenkgutschein",
+        "en-GB": "Gift voucher"
+      }
+    },
+    "adapter": {
+      "internalUrl": "https://walley-adapter.checkout.{{internal_environment}}.internal.norce.tech",
+      "publicUrl": "https://{{slug}}.api-se{{environment}}.norce.tech/checkout/walley-adapter"
+    },
+    "active": true
+  }
+}

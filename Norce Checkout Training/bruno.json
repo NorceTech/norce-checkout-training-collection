@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Norce Checkout Training",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

@@ -1,0 +1,46 @@
+meta {
+  name: [Shopping] Create NCO Basket
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{commerceShoppingServiceUrl}}/CreateBasket?ipAddress=127.0.0.1
+  body: json
+  auth: bearer
+}
+
+params:query {
+  ipAddress: 127.0.0.1
+}
+
+headers {
+  Content-Type: application/json
+  applicationId: {{commerceApplicationId}}
+}
+
+auth:bearer {
+  token: {{commerce_token}}
+}
+
+body:json {
+  {
+    "CustomerId": 39,
+    "Items": [
+      {
+        "PartNo": "dtextreme",
+        "Quantity": 1    
+      }
+    ],  
+    "PaymentMethodId": 239
+  }
+}
+
+vars:post-response {
+  basketId: res.body.Id
+}
+
+assert {
+  res.status: eq 200
+  res('Id'): isDefined
+}

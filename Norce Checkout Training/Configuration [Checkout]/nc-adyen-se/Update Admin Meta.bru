@@ -1,0 +1,46 @@
+meta {
+  name: Update Admin Meta
+  type: http
+  seq: 6
+}
+
+put {
+  url: {{configurationUrl}}/api/v1/configuration/merchants/{{merchant}}/channels/{{channel}}/configurations/admin_meta
+  body: json
+  auth: bearer
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "$schema": "http://{{slug}}.checkoutadmin-se{{environment}}.norce.tech/api/schemas/v1/admin_meta_schema.json",
+    "id": "admin_meta",
+    "configs": [
+      {
+        "schema": "https://{{slug}}.api-se{{environment}}.norce.tech/checkout/norce-adapter/openapi/v2/schemas/norce_adapter.json",
+        "id": "norce_adapter",
+        "imgUrl": "/norce-logo-black.svg",
+        "tags": [
+          "Platform"
+        ]
+      },
+      {
+        "schema": "https://{{slug}}.api-se{{environment}}.norce.tech/checkout/adyen-adapter/openapi/v1/schemas/adyen_dropin_adapter.json",
+        "id": "adyen_dropin_adapter",
+        "imgUrl": "/adyen.png",
+        "tags": [
+          "Payment"
+        ]
+      }
+    ],
+    "active": true
+  }
+}
