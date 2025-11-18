@@ -10,7 +10,6 @@ vars {
   commerceShoppingServiceUrl: https://{{slug}}.api-se{{environment}}.norce.tech/commerce/shopping/1.1
   commerceIdentityServiceUrl: https://{{slug}}.api-se{{environment}}.norce.tech/identity/1.0
   commerceApplicationId: 1042
-  walleyScope: 705798e0-8cef-427c-ae00-6023deba29af/.default
   walleyApiUrl: https://api.uat.walleydev.com
   walleyAuthenticationUrl: https://api.uat.walleydev.com
   walleyFrontEndUrl: https://checkout.uat.walleydev.com
@@ -20,17 +19,21 @@ vars {
   internal_environment: playground
   countryCodeXX: SE
   slug: norce-open-demo
-  commerceIdentityClientId: bbd0c062-2bd8-46f2-9b9b-6d13c4caf14e
-  commerceIdentityClientSecret: e152968f-cde7-4f88-ab21-57293a2ccda2
-  token: GO8iMfh7cdLjJ7ztZQ9racySeDNLV5h87EeiUUr9XUk=
-  walleyApiSecret: lfN8Q~HoBVTInjgQPzq60TsV6-loKqBFBq8Lvcws
-  walleyClientId: 7eba8c54-ea5e-4400-8b49-94b64f5485e9
   adyenEnvironment: test
-  adyenApiUrl: https://something
-  adyenApiKey: 123
-  adyenClientKey: 123
-  adyenMerchantAccount: 123
-  adyenReturnUrl: https://returnurl
-  adyenWebhookHmacKey: 123
+  adyenApiUrl: https://checkout-test.adyen.com
+  adyenReturnUrl: https://norce.io?orderId={orderId}&channel={channel}&merchant={merchant}
   adyenGooglePayMerchantId: 123
+  adyenAdapterUrl: https://{{slug}}.api-se{{environment}}.norce.tech/checkout/adyen-adapter
 }
+vars:secret [
+  walleyScope,
+  commerceIdentityClientId,
+  commerceIdentityClientSecret,
+  token,
+  walleyApiSecret,
+  walleyClientId,
+  adyenApiKey,
+  adyenClientKey,
+  adyenMerchantAccount,
+  adyenWebhookHmacKey
+]

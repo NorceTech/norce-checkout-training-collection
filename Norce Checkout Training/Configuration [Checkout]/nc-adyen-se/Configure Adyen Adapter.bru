@@ -1,7 +1,7 @@
 meta {
   name: Configure Adyen Adapter
   type: http
-  seq: 4
+  seq: 3
 }
 
 put {
@@ -71,9 +71,6 @@ body:json {
       "card": {
         "hasHolderName": true,
         "holderNameRequired": false
-      },
-      "googlepay": {
-        "merchantId": "{{adyenGooglePayMerchantId}}"
       }
     }
   }

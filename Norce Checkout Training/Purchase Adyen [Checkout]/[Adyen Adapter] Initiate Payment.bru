@@ -1,0 +1,35 @@
+meta {
+  name: [Adyen Adapter] Initiate Payment
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{adyenAdapterUrl}}/api/checkout/v1/orders/{{orderId}}/payments
+  body: none
+  auth: bearer
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+script:post-response {
+  // Extraherar och sätter variabeln 'paymentId' från response body om statuskoden är 200 OK.
+  if (res.status === 200) {
+    const paymentIdFromBody = res.body.paymentId;
+    if (paymentIdFromBody !== undefined) {
+      bru.setVar('paymentId', paymentIdFromBody);
+      console.log('Variabeln paymentId uppdaterad till: ' + paymentIdFromBody);
+    } else {
+      console.log('Status var 200 OK, men paymentId saknades i response body.');
+    }
+  } else {
+    console.log('Status var ' + res.status + '. Variabeln paymentId lämnades oförändrad.');
+  }
+}

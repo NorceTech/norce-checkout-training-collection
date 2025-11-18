@@ -1,7 +1,7 @@
 meta {
-  name: Update Norce Adapter in Admin Meta
+  name: Update Admin Meta
   type: http
-  seq: 2
+  seq: 5
 }
 
 put {
@@ -30,6 +30,14 @@ body:json {
         "imgUrl": "/norce-logo-black.svg",
         "tags": [
           "Platform"
+        ]
+      },
+      {
+        "schema": "https://{{slug}}.api-se{{environment}}.norce.tech/checkout/adyen-adapter/openapi/v1/schemas/adyen_dropin_adapter.json",
+        "id": "adyen_dropin_adapter",
+        "imgUrl": "/adyen.png",
+        "tags": [
+          "Payment"
         ]
       }
     ],
