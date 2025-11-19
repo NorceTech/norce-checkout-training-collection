@@ -1,7 +1,7 @@
 meta {
   name: [Order] Add Hook State
   type: http
-  seq: 13
+  seq: 15
 }
 
 post {
@@ -23,7 +23,7 @@ body:json {
   {
     "version": "v0",
     "scope": "/state",
-    "invoke": "https://webhook.site/4e8b9398-ba1b-4dcf-b96a-4ec18057e46d",
+    "invoke": "{{webhooksiteurl}}",
     "adapterId": "external_reserve"
   }
 }

@@ -1,0 +1,31 @@
+meta {
+  name: [Order] Validate Order
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{orderUrl}}/api/v1/checkout/orders/{{orderId}}/validate
+  body: none
+  auth: bearer
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  
+  
+}
+
+docs {
+  # Validate the order
+  
+  This will run all registered validations on the order
+}

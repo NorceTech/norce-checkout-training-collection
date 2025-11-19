@@ -1,7 +1,7 @@
 meta {
   name: [Order] Add Notification State Completed
   type: http
-  seq: 11
+  seq: 12
 }
 
 post {
@@ -28,6 +28,6 @@ body:json {
         "completed"
       ]
     },
-    "invoke": "https://webhook.site/4e8b9398-ba1b-4dcf-b96a-4ec18057e46d/{order_id}"
+    "invoke": "{{webhooksiteurl}}/{order_id}"
   }
 }

@@ -1,7 +1,7 @@
 meta {
-  name: [Order] Add Validation External Onhand
+  name: [Order] Add Validation Fails
   type: http
-  seq: 13
+  seq: 4
 }
 
 post {
@@ -21,7 +21,7 @@ auth:bearer {
 
 body:json {
   {
-    "invoke": "{{webhooksiteurl}}/validate",
-    "adapterId": "onhand_verify"
+    "invoke": "https://httpstat.us/400",
+    "adapterId": "fail_verify"
   }
 }

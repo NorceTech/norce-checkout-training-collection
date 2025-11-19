@@ -1,7 +1,7 @@
 meta {
-  name: [Order] Add Validation External Onhand
+  name: [Order] Add Validation Fail
   type: http
-  seq: 13
+  seq: 14
 }
 
 post {
@@ -21,7 +21,7 @@ auth:bearer {
 
 body:json {
   {
-    "invoke": "{{webhooksiteurl}}/validate",
+    "invoke": "https://400.returnco.de/whatever",
     "adapterId": "onhand_verify"
   }
 }

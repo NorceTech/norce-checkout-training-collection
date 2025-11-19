@@ -1,0 +1,68 @@
+docs {
+  # 📘 Norce Checkout Training Collection
+  
+  Welcome to the **Norce Checkout Training Collection** — a hands-on, developer-focused set of API calls designed to help you understand and test the full order and payment flow across **Norce Commerce**, **Norce Checkout**, and multiple PSP adapters (Non-PSP, Walley, Adyen).
+  
+  This collection is intended for developers who already have experience with **Norce Commerce** and now want to learn how **Norce Checkout** works internally:  
+  how baskets are imported, how orders evolve through the state machine, how payment sessions are initiated, and how PSP adapters interact with external services.
+  
+  ---
+  
+  ## 🚀 What This Collection Provides
+  
+  This Bruno project gives you:
+  
+  ### 🔹 End-to-end test flows  
+  From *Commerce basket* ➝ *Checkout order* ➝ *Payment initiation* ➝ *Callback/complete*.
+  
+  ### 🔹 Multiple PSP scenarios  
+  * **Non-PSP** — lightweight mode with custom hooks/validations.  
+  * **Walley** — initiate payments via hosted snippet.  
+  * **Adyen** — authorize payments and simulate webhook completion.
+  
+  ### 🔹 Clear separation of responsibilities  
+  * **Arrange Basket [Commerce]** — create baskets and set buyer, delivery & payment method.  
+  * **Configuration [Checkout]** — configure channels and adapters using schema-driven settings.  
+  * **Purchase [Checkout]** — run full payment flows and complete orders.
+  
+  ### 🔹 Secure & repeatable setup  
+  The included environment (`Playground.bru`) uses secrets that you fill in locally.  
+  These values are **not** stored in Git history (history has been flattened for safety).
+  
+  ---
+  
+  ## 🧩 Structure Overview
+  
+  ### **1. Arrange Basket [Commerce]**  
+  Prepare and populate a basket in Norce Commerce.  
+  You will obtain: `basketId`.
+  
+  ### **2. Purchase (Checkout)**  
+  Import the basket into Checkout and execute payments.  
+  You will obtain: `orderId`, `paymentId`, and PSP interaction results.
+  
+  ### **3. Configuration (Checkout)**  
+  Set up and update channel configurations, adapters, and settings used during payments.
+  
+  ---
+  
+  ## 💡 Best Practices
+  
+  * Keep the environment secrets updated locally.  
+  * Use the flows in order — many later requests depend on earlier IDs.  
+  * Compare responses between different PSP adapters to understand behavioral differences.  
+  * When testing Adyen flows, remember that final completion is triggered via a webhook (simulated in Bruno).
+  
+  ---
+  
+  ## 📎 Useful References
+  
+  * 👉 Norce Docs: https://docs.norce.io  
+  * 👉 Norce Checkout Overview  
+  * 👉 Norce Commerce API Reference  
+  * 👉 Adyen Documentation (Drop-in & Webhooks)  
+  * 👉 Walley API Documentation  
+  
+  ---
+  
+}
