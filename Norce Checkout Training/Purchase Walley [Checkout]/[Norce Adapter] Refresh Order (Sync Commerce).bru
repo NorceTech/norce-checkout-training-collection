@@ -7,7 +7,7 @@ meta {
 put {
   url: {{norceAdapterUrl}}/api/v1/orders/{{orderId}}
   body: none
-  auth: bearer
+  auth: inherit
 }
 
 headers {
@@ -15,6 +15,4 @@ headers {
   x-channel: {{channel}}
 }
 
-auth:bearer {
-  token: {{token}}
-}
+

@@ -7,7 +7,7 @@ meta {
 post {
   url: {{norceAdapterUrl}}/api/v1/orders
   body: json
-  auth: bearer
+  auth: inherit
 }
 
 headers {
@@ -15,9 +15,6 @@ headers {
   x-channel: {{channel}}
 }
 
-auth:bearer {
-  token: {{token}}
-}
 
 body:json {
   {

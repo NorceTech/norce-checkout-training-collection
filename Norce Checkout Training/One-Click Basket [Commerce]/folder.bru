@@ -1,4 +1,23 @@
 meta {
   name: One-Click Basket [Commerce]
-  seq: 3
+}
+
+auth {
+  mode: oauth2
+}
+
+auth:oauth2 {
+  grant_type: client_credentials
+  access_token_url: {{commerceIdentityServiceUrl}}/connect/token
+  refresh_token_url: 
+  client_id: {{commerceIdentityClientId}}
+  client_secret: {{commerceIdentityClientSecret}}
+  scope: {{commerceIdentityScope}}
+  credentials_placement: body
+  credentials_id: credentials
+  token_source: access_token
+  token_placement: header
+  token_header_prefix: Bearer
+  auto_fetch_token: true
+  auto_refresh_token: false
 }

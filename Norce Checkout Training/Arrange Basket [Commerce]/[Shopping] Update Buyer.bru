@@ -1,13 +1,13 @@
 meta {
   name: [Shopping] Update Buyer
   type: http
-  seq: 4
+  seq: 3
 }
 
 post {
   url: {{commerceShoppingServiceUrl}}/UpdateBuyer?basketId={{basketId}}&updatedBy=1
   body: json
-  auth: bearer
+  auth: inherit
 }
 
 params:query {
@@ -18,10 +18,6 @@ params:query {
 headers {
   Content-Type: application/json
   applicationId: {{commerceApplicationId}}
-}
-
-auth:bearer {
-  token: {{commerce_token}}
 }
 
 body:json {

@@ -7,7 +7,7 @@ meta {
 post {
   url: {{adyenAdapterUrl}}/api/checkout/v1/orders/{{orderId}}/payments
   body: none
-  auth: bearer
+  auth: inherit
 }
 
 headers {
@@ -15,9 +15,7 @@ headers {
   x-channel: {{channel}}
 }
 
-auth:bearer {
-  token: {{token}}
-}
+
 
 script:post-response {
   // Extraherar och sätter variabeln 'paymentId' från response body om statuskoden är 200 OK.

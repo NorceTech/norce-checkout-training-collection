@@ -7,16 +7,12 @@ meta {
 put {
   url: {{nonpspAdapterUrl}}/api/checkout/v1/orders/{{orderId}}/payments/{{paymentId}}
   body: json
-  auth: bearer
+  auth: inherit
 }
 
 headers {
   x-merchant: {{merchant}}
   x-channel: {{channel}}
-}
-
-auth:bearer {
-  token: {{token}}
 }
 
 body:json {

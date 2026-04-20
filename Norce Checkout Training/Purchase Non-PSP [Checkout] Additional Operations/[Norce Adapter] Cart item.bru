@@ -7,16 +7,12 @@ meta {
 patch {
   url: {{norceAdapterUrl}}/api/v1/orders/{{orderId}}/cart/items/{{cartItemId}}
   body: json
-  auth: bearer
+  auth: inherit
 }
 
 headers {
   x-merchant: {{merchant}}
   x-channel: {{channel}}
-}
-
-auth:bearer {
-  token: {{token}}
 }
 
 body:json {

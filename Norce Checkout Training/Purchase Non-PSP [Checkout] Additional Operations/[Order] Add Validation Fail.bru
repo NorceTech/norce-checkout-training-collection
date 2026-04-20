@@ -7,16 +7,12 @@ meta {
 post {
   url: {{orderUrl}}/api/v1/checkout/orders/{{orderId}}/validations
   body: json
-  auth: bearer
+  auth: inherit
 }
 
 headers {
   x-merchant: {{merchant}}
   x-channel: {{channel}}
-}
-
-auth:bearer {
-  token: {{token}}
 }
 
 body:json {

@@ -7,16 +7,12 @@ meta {
 get {
   url: {{orderUrl}}/api/v0/checkout/orders/{{orderId}}
   body: none
-  auth: bearer
+  auth: inherit
 }
 
 headers {
   x-merchant: {{merchant}}
   x-channel: {{channel}}
-}
-
-auth:bearer {
-  token: {{token}}
 }
 
 vars:post-response {

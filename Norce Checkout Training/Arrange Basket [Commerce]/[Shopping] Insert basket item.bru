@@ -1,13 +1,13 @@
 meta {
   name: [Shopping] Insert basket item
   type: http
-  seq: 3
+  seq: 2
 }
 
 post {
   url: {{commerceShoppingServiceUrl}}/InsertBasketItem?ipAddress=127.0.0.1&createdBy=1&format=json&basketId={{basketId}}
   body: json
-  auth: bearer
+  auth: inherit
 }
 
 params:query {
@@ -20,10 +20,6 @@ params:query {
 headers {
   Content-Type: application/json
   applicationId: {{commerceApplicationId}}
-}
-
-auth:bearer {
-  token: {{commerce_token}}
 }
 
 body:json {
