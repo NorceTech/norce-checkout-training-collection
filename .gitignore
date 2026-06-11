@@ -2,3 +2,6 @@
 .idea
 
 /dumpgitfiles.ps1
+
+# Claude / Cowork workspace
+.claude/
