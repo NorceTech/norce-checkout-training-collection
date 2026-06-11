@@ -42,6 +42,9 @@ To run this collection, you must have:
 
     * **Save** and **Activate** the environment.
 
+3.  **Set Your Own Webhook URL:**
+    The environment variable `webhooksiteurl` points to a shared [webhook.site](https://webhook.site) session. Each training participant should create their own session at [webhook.site](https://webhook.site) and update this variable locally to avoid conflicting with others.
+
 ## 🗺️ Collection Structure and Flow
 
 The collection is logically separated into three main folders representing the central transaction stages.
@@ -52,8 +55,7 @@ This folder focuses on creating and preparing the shopping basket in **Norce Com
 
 | Request | Purpose |
 | :--- | :--- |
-| `[Identity] Fetch Access Token` | **CRITICAL:** Acquires the necessary `commerce_token` (Client Credentials Grant) to authenticate all subsequent Commerce requests. |
-| `[Shopping] Create basket` | Initializes a new shopping basket and extracts the `basketId`. |
+| `[Shopping] Create basket` | Initializes a new shopping basket and extracts the `basketId`. Authentication is handled automatically via OAuth2 Client Credentials configured at the folder level. |
 | `[Shopping] Insert basket item` | Adds a product to the basket. |
 | `[Shopping] Update Buyer` / `[Shopping] Update Payment Method` / `[Shopping] Update Delivery Method` | Sets customer and logistic details required for successful checkout. |
 
@@ -71,7 +73,7 @@ These folders demonstrate the full runtime flow of an order using the configured
 | Request | Endpoint | Function |
 | :--- | :--- | :--- |
 | **Step 1:** `[Norce Adapter] Create Checkout Order` | `POST /api/v1/orders` | Imports the prepared Commerce basket into Norce Checkout, retrieving the `orderId`. |
-| **Step 2:** `[Order] Get Order` | `GET /api/v0/checkout/orders/{orderId}` | Retrieves the current state of the Checkout Order. |
+| **Step 2:** `[Order] Get Order` | `GET /api/v1/checkout/orders/{orderId}` | Retrieves the current state of the Checkout Order. |
 | **Step 3:** `[PSP Adapter] Initiate Payment` | `POST /.../payments` | Starts the payment session, returning data necessary for the client-side UI (e.g., `paymentMethodsResponse`). |
 | **Step 4:** `[PSP Adapter] Complete Payment` | `POST /.../complete` | Simulates the final action required to move the order state to `completed` after successful authorization (often simulating a server-side Webhook). |
 

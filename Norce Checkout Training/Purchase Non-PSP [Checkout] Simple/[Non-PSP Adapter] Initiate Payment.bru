@@ -29,3 +29,13 @@ script:post-response {
     console.log('Status var ' + res.status + '. Variabeln paymentId lämnades oförändrad.');
   }
 }
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  # Initiate Payment (Non-PSP)
+
+  Starts a Non-PSP payment session. Unlike Adyen or Walley, the Non-PSP adapter does not communicate with an external payment provider — it manages payment state internally. The response contains the `paymentId` needed to complete the payment.
+}

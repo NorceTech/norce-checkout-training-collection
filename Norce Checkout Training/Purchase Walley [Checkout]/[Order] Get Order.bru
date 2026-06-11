@@ -5,7 +5,7 @@ meta {
 }
 
 get {
-  url: {{orderUrl}}/api/v0/checkout/orders/{{orderId}}
+  url: {{orderUrl}}/api/v1/checkout/orders/{{orderId}}
   body: none
   auth: inherit
 }
@@ -19,4 +19,16 @@ headers {
 
 vars:post-response {
   cartItemId: res.body.cart.items[0].id
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  # Get Order
+
+  Retrieves the current state of the Checkout order. Useful for inspecting the order after each operation to see how it evolves through the state machine.
+
+  The first cart item's `id` is saved as `cartItemId` for use in cart update operations.
 }

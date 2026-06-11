@@ -23,3 +23,13 @@ body:json {
     "adapterId": "fail_verify"
   }
 }
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  # Add Validation (Fail)
+
+  Registers an external validation that is designed to fail (the invoke URL returns HTTP 400). Use this to test how Checkout handles validation failures — the order will not be completable until this validation is removed or replaced with one that succeeds.
+}

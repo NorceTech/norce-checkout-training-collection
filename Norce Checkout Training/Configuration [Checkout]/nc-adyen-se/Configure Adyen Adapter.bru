@@ -7,7 +7,7 @@ meta {
 put {
   url: {{configurationUrl}}/api/v1/configuration/merchants/{{merchant}}/channels/{{channel}}/configurations/adyen_dropin_adapter
   body: json
-  auth: bearer
+  auth: inherit
 }
 
 headers {
@@ -72,5 +72,11 @@ body:json {
       }
     }
   }
-  
+
+}
+
+docs {
+  # Configure Adyen Adapter
+
+  Sets up the Adyen Drop-in payment adapter. Includes API keys, merchant account, webhook HMAC for signature verification, return URLs, and payment method configuration. The `adyenClientKey` is the client-side key used by the Drop-in component.
 }

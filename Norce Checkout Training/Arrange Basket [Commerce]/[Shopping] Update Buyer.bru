@@ -40,3 +40,9 @@ body:json {
 assert {
   res.status: eq 200
 }
+
+docs {
+  # Update Buyer
+
+  Sets the buyer's personal and address details on the basket. These are required for the order to pass validation when it reaches Norce Checkout. The `UseInvoiceAddressAsDeliveryAddress` flag copies the billing address to the shipping address.
+}

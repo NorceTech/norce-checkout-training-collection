@@ -7,12 +7,10 @@ meta {
 get {
   url: {{configurationUrl}}/api/v1/configuration/merchants/{{merchant}}/channels/{{channel}}/configurations/walley_checkout_adapter
   body: json
-  auth: bearer
+  auth: inherit
 }
 
 headers {
   x-merchant: {{merchant}}
   x-channel: {{channel}}
 }
-
-

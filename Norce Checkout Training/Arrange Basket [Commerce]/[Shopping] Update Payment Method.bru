@@ -20,23 +20,13 @@ headers {
   applicationId: {{commerceApplicationId}}
 }
 
-body:json {
-  {
-    "Email": "kalle@anka.se",
-    "FirstName": "Kalle",
-    "LastName": "Anka",
-    "CellPhone": "555-1234",
-    "InvoiceAddress": {
-      "Line1": "Ankeborgsgatan 27",
-      "Zip": "123 45",
-      "City": "Ankeborg",
-      "CountryId": 1
-    },
-    "UseInvoiceAddressAsDeliveryAddress": true
-  }
-}
-
 assert {
   res.status: eq 200
   res('Basket.Id'): eq {{basketId}}
+}
+
+docs {
+  # Update Payment Method
+
+  Sets the payment method on the basket. The `paymentMethodId` must match a payment method configured in the Commerce application. This call uses `body: none` — the payment method is set via the query parameter.
 }

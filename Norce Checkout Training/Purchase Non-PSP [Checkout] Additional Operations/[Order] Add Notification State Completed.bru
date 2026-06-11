@@ -27,3 +27,13 @@ body:json {
     "invoke": "{{webhooksiteurl}}/{order_id}"
   }
 }
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  # Add Notification (State Completed)
+
+  Registers a notification that fires when the order reaches `completed` status. The `invoke` URL will be called with the order data — in this demo it points to webhook.site so you can inspect the payload. In production, this would trigger e.g. a confirmation email.
+}

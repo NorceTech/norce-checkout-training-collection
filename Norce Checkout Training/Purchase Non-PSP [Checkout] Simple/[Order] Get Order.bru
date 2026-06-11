@@ -19,9 +19,19 @@ vars:post-response {
   cartItemId: res.body.cart.items[0].id
 }
 
+assert {
+  res.status: eq 200
+}
+
 tests {
   test("Response contains property 'shipping'", () => {
     expect(res.body).to.have.property("shippings");
   });
-  
+
+}
+
+docs {
+  # Get Order
+
+  Retrieves the current state of the Checkout order. The first cart item's `id` is saved as `cartItemId`. The test verifies that `shippings` is present — confirming delivery methods were mapped from Commerce.
 }

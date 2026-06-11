@@ -15,13 +15,12 @@ headers {
   x-channel: {{channel}}
 }
 
-tests {
-  
-  
+assert {
+  res.status: eq 200
 }
 
 docs {
-  # Validate the order
-  
-  This will run all registered validations on the order
+  # Validate Order
+
+  Runs all registered validations on the order. This includes both the built-in Norce Adapter validation and any external validations added via the validations endpoint. If any validation fails, the order cannot proceed to completion.
 }

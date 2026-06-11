@@ -23,3 +23,13 @@ body:json {
     "adapterId": "external_reserve"
   }
 }
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  # Add Hook (State Change)
+
+  Registers a hook that fires on any state change of the order. Hooks differ from notifications in that they are synchronous — the state transition waits for the hook to respond. This can be used for external reservation systems that need to confirm before the order proceeds.
+}

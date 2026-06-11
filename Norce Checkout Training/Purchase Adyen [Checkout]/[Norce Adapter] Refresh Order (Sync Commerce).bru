@@ -15,3 +15,13 @@ headers {
   x-channel: {{channel}}
 }
 
+assert {
+  res.status: eq 200
+}
+
+docs {
+  # Refresh Order (Sync Commerce)
+
+  Syncs the Checkout order with the underlying Commerce basket. Call this after making changes in Commerce (e.g. price updates, stock changes) to pull the latest state into Checkout.
+}
+

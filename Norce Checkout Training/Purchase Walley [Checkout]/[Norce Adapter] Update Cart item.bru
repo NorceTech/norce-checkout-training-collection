@@ -22,3 +22,13 @@ body:json {
     "quantity":2
   }
 }
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  # Update Cart Item
+
+  Updates the quantity of a cart item in the Checkout order via the Norce Adapter. After updating, use **Refresh Order** to sync the changes back to Commerce.
+}

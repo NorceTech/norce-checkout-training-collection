@@ -38,10 +38,14 @@ script:post-response {
   }
 }
 
+assert {
+  res.status: eq 201
+}
+
 docs {
   # Create Checkout Order
-  
-  Using the Norce Adapter for importing a Commerce basket and create an order in Norce Checkout.
-  
-  We'll receive a Checkout order id which is saved for subsequent requests.
+
+  Imports the Commerce basket into Norce Checkout via the Norce Adapter. The `cartReference` is the `basketId` from the Arrange Basket step.
+
+  On success (201 Created), the response contains the Checkout `orderId` which is saved for all subsequent requests in this flow.
 }

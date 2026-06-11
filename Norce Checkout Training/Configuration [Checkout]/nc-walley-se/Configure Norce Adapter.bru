@@ -7,15 +7,13 @@ meta {
 put {
   url: {{configurationUrl}}/api/v1/configuration/merchants/{{merchant}}/channels/{{channel}}/configurations/norce_adapter
   body: json
-  auth: bearer
+  auth: inherit
 }
 
 headers {
   x-merchant: {{merchant}}
   x-channel: {{channel}}
 }
-
-
 
 body:json {
   {
@@ -45,10 +43,12 @@ body:json {
     },
     "features": {
       "mapShippingFromNorceCommerce": false
-    },
-    "adapter": {
-      "internalUrl": "https://norce-adapter.checkout.{{internal_environment}}.internal.norce.tech",
-      "publicUrl": "{{norceAdapterUrl}}"
     }
   }
+}
+
+docs {
+  # Configure Norce Adapter (Walley channel)
+  
+  Sets up the Norce Adapter for this channel. The adapter bridges Commerce and Checkout — it handles basket import, order sync, and validation. Key settings include Commerce API credentials, the application/client IDs, and feature flags like `mapShippingFromNorceCommerce`.
 }

@@ -7,15 +7,13 @@ meta {
 put {
   url: {{configurationUrl}}/api/v1/configuration/merchants/{{merchant}}/channels/{{channel}}/configurations/walley_checkout_adapter
   body: json
-  auth: bearer
+  auth: inherit
 }
 
 headers {
   x-merchant: {{merchant}}
   x-channel: {{channel}}
 }
-
-
 
 body:json {
   {
@@ -65,4 +63,10 @@ body:json {
     },
     "active": true
   }
+}
+
+docs {
+  # Configure Walley Adapter
+  
+  Sets up the Walley payment adapter for this channel. Includes API credentials, store IDs (B2C/B2B), redirect URLs for the checkout flow, and localization options for discount/voucher text. The `useDeliveryModule` flag enables Walley's built-in delivery selection.
 }

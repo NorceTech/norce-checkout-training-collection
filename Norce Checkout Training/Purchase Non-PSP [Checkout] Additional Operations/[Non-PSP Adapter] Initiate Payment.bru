@@ -29,3 +29,13 @@ script:post-response {
     console.log('Status var ' + res.status + '. Variabeln paymentId lämnades oförändrad.');
   }
 }
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  # Initiate Payment (Non-PSP)
+
+  Starts a Non-PSP payment session. The response contains the `paymentId` and the list of available payment methods configured on the adapter. The pre-selected method from the adapter config is used by default.
+}

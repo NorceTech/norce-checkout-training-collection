@@ -7,15 +7,13 @@ meta {
 put {
   url: {{configurationUrl}}/api/v1/configuration/merchants/{{merchant}}/channels/{{channel}}/configurations/admin_meta
   body: json
-  auth: bearer
+  auth: inherit
 }
 
 headers {
   x-merchant: {{merchant}}
   x-channel: {{channel}}
 }
-
-
 
 body:json {
   {
@@ -31,9 +29,9 @@ body:json {
         ]
       },
       {
-        "schema": "https://{{slug}}.api-se{{environment}}.norce.tech/checkout/adyen-adapter/openapi/v1/schemas/adyen_dropin_adapter.json",
-        "id": "adyen_dropin_adapter",
-        "imgUrl": "/adyen.png",
+        "schema": "https://{{slug}}.api-se{{environment}}.norce.tech/checkout/walley-adapter/openapi/v1/schemas/walley_checkout_adapter.json",
+        "id": "walley_checkout_adapter",
+        "imgUrl": "/walley.png",
         "tags": [
           "Payment"
         ]
@@ -41,4 +39,10 @@ body:json {
     ],
     "active": true
   }
+}
+
+docs {
+  # Update Admin Meta
+  
+  Configures the admin UI metadata for this channel. This tells the Checkout admin which adapter configurations exist and how to display them (icons, tags). Each entry points to the adapter's JSON schema for the admin to render a configuration form.
 }

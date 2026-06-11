@@ -39,3 +39,15 @@ script:post-response {
     console.log('Status var ' + res.status + '. Variabeln orderId lämnades oförändrad.');
   }
 }
+
+assert {
+  res.status: eq 201
+}
+
+docs {
+  # Create Checkout Order
+
+  Imports the Commerce basket into Norce Checkout via the Norce Adapter. The `cartReference` is the `basketId` from the Arrange Basket step.
+
+  On success (201 Created), the response contains the Checkout `orderId` which is saved for all subsequent requests in this flow.
+}

@@ -33,3 +33,11 @@ assert {
   res.status: eq 200
   res('Id'): isDefined
 }
+
+docs {
+  # Create Basket
+
+  Creates a new empty shopping basket in Norce Commerce. The returned basket `Id` is automatically saved as `basketId` and used by all subsequent requests in this folder.
+
+  This is the starting point for the step-by-step basket flow. For a quicker alternative, see the **One-Click Basket** folder.
+}

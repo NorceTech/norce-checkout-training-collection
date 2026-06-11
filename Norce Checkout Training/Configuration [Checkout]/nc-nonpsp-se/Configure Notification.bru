@@ -7,7 +7,7 @@ meta {
 put {
   url: {{configurationUrl}}/api/v1/configuration/merchants/{{merchant}}/channels/{{channel}}/configurations/static_notifications
   body: json
-  auth: bearer
+  auth: inherit
 }
 
 headers {
@@ -33,5 +33,11 @@ body:json {
       ]
     }
   }
-  
+
+}
+
+docs {
+  # Configure Static Notification
+
+  Sets up a channel-level notification that fires when the cart changes on any order. Unlike order-level notifications (added per order), static notifications apply to all orders on this channel. The `invoke` URL points to webhook.site for inspection during training.
 }
