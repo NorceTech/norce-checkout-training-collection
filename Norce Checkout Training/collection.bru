@@ -58,8 +58,9 @@ docs {
   ## 💡 Best Practices
   
   * Keep the environment secrets updated locally.  
+  * Replace `webhooksiteurl` with your own webhook.site URL. The committed one has expired and answers 404, which makes validations and hooks fail.  
   * Use the flows in order — many later requests depend on earlier IDs.  
-  * Start each purchase flow with a fresh basket.  
+  * Start each purchase flow with a fresh basket. Use **Arrange Basket** when the flow completes the order; a One-Click basket has no delivery address.  
   * Compare responses between different PSP adapters to understand behavioral differences.  
   * Only the Non-PSP flows complete in Bruno. Walley, Adyen and Kustom complete in the provider's checkout.
   

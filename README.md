@@ -45,7 +45,7 @@ To run this collection, you must have:
     * **Save** and **Activate** the environment.
 
 3.  **Set Your Own Webhook URL:**
-    The environment variable `webhooksiteurl` points to a shared [webhook.site](https://webhook.site) session. Each training participant should create their own session at [webhook.site](https://webhook.site) and update this variable locally to avoid conflicting with others.
+    The environment variable `webhooksiteurl` points to a shared [webhook.site](https://webhook.site) session. The committed URL has expired and answers 404, which makes the validation and hook scenarios fail. Create your own session at [webhook.site](https://webhook.site) and update this variable locally. To run the scenarios without inspecting the calls, `https://200.returnco.de` answers 200 with an empty body.
 
     For the hook scenario (Non-PSP Additional Operations → *3. Notifications and Hooks*), configure your webhook.site URL to respond with an empty body or `[]`. Checkout treats any other non-JSON response from a hook as an error and rolls back the state change.
 
@@ -75,7 +75,7 @@ This folder contains requests used for setting up the **Norce Checkout Channel C
 
 ### 3. Purchase [Checkout] (Flow Testing)
 
-One folder per adapter: `Purchase Non-PSP [Checkout] Simple`, `Purchase Non-PSP [Checkout] Additional Operations`, `Purchase Walley [Checkout]`, `Purchase Adyen [Checkout]` and `Purchase Kustom [Checkout]`. Start each flow with a fresh basket. The typical sequence is:
+One folder per adapter: `Purchase Non-PSP [Checkout] Simple`, `Purchase Non-PSP [Checkout] Additional Operations`, `Purchase Walley [Checkout]`, `Purchase Adyen [Checkout]` and `Purchase Kustom [Checkout]`. Start each flow with a fresh basket. Use `Arrange Basket` for flows that complete the order: the One-Click basket has no delivery address, so Commerce rejects it at completion. The typical sequence is:
 
 | Request | Endpoint | Function |
 | :--- | :--- | :--- |
