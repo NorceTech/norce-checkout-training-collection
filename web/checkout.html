@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>NCO Kustom – Checkout test</title>
+  <title>NCO Checkout Snippet</title>
   <style>
     body { font-family: system-ui, Arial, sans-serif; max-width: 760px; margin: 24px auto; padding: 0 16px; color: #1a1a1a; }
     h1 { font-size: 20px; }
@@ -15,11 +15,11 @@
   </style>
 </head>
 <body>
-  <h1>NCO Kustom / Klarna Checkout – snippet-test</h1>
+  <h1>NCO – snippet-test för Kustom och Walley</h1>
   <p class="help">
     Kör <strong>Initiate Payment</strong> i Bruno, kopiera svaret och klistra in det nedan.
     Du kan klistra in antingen hela JSON-svaret (med <code>htmlSnippet</code>) eller bara select själva snippet-HTML:en.
-    Klicka sedan <strong>Rendera</strong> så bäddas Kustom-checkouten in nedanför.
+    Klicka sedan <strong>Rendera</strong> så bäddas Kustom- eller Walley-checkouten in nedanför.
   </p>
 
   <textarea id="snippet-input" placeholder='{ "id": "...", "status": "checkout_incomplete", "htmlSnippet": "<div id=\"klarna-checkout-container\">...</div>" }'></textarea>
@@ -42,7 +42,7 @@
       } catch (e) {
         // inte JSON – anta att det redan är snippet-HTML
       }
-      if (text.includes("klarna-checkout-container")) return text;
+      if (text.includes("klarna-checkout-container") || text.includes("<script")) return text;
       return null;
     }
 

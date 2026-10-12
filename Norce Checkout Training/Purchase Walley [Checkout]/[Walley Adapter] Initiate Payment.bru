@@ -42,4 +42,6 @@ docs {
   Starts a Walley payment session for the order. The response contains the `paymentId` (saved for later use) and snippet data that a frontend would embed to render the Walley checkout widget.
 
   In a real integration, the customer interacts with the Walley hosted snippet. Completion happens via Walley's server-to-server callback.
+
+  To try the checkout, paste the response into `web/checkout.html` (served from localhost, see README) and click **Rendera**. The Walley UAT checkout renders on `http://localhost`.
 }
