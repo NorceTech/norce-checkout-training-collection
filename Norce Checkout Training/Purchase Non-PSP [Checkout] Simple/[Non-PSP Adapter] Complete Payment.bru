@@ -16,11 +16,11 @@ headers {
 }
 
 assert {
-  res.status: eq 200
+  res.status: eq 202
 }
 
 docs {
   # Complete Payment
 
-  Completes the Non-PSP payment and moves the order to `completed` state. This is the final step in the simple purchase flow. After this, fetch the order again to see the completed state.
+  Completes the Non-PSP payment and moves the order to `completed` state. The adapter answers `202 Accepted`. This is the last payment step in the simple flow; run **Get Order (after complete)** to see the completed state.
 }

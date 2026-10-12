@@ -16,21 +16,21 @@ headers {
 }
 
 script:post-response {
-  // Extraherar och sätter variabeln 'paymentId' från response body om statuskoden är 200 OK.
-  // Kustom/Klarna Checkout returnerar även ett htmlSnippet som frontend bäddar in för att rendera checkout-iframen.
+  // Saves 'paymentId' from the response body when the status is 200 OK.
+  // Kustom also returns an htmlSnippet that the frontend embeds to render the checkout iframe (see web/checkout.html).
   if (res.status === 200) {
     const paymentIdFromBody = res.body.paymentId || res.body.id;
     if (paymentIdFromBody !== undefined) {
       bru.setVar('paymentId', paymentIdFromBody);
-      console.log('Variabeln paymentId uppdaterad till: ' + paymentIdFromBody);
+      console.log('paymentId set to: ' + paymentIdFromBody);
     } else {
-      console.log('Status var 200 OK, men paymentId/id saknades i response body.');
+      console.log('Status 200 OK, but paymentId/id was missing in the response body.');
     }
     if (res.body.htmlSnippet !== undefined) {
-      console.log('htmlSnippet mottaget (bäddas in av frontend för att visa Kustom/Klarna-checkouten).');
+      console.log('htmlSnippet received. Paste the response into web/checkout.html to render the Kustom checkout.');
     }
   } else {
-    console.log('Status var ' + res.status + '. Variabeln paymentId lämnades oförändrad.');
+    console.log('Status ' + res.status + '. paymentId left unchanged.');
   }
 }
 

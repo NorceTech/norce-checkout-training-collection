@@ -1,0 +1,39 @@
+meta {
+  name: [Order] Add Notification State Completed
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{orderUrl}}/api/v1/checkout/orders/{{orderId}}/notifications
+  body: json
+  auth: inherit
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+body:json {
+  {
+    "description": "Mail notification",
+    "scope": "/state/currentStatus",
+    "schema": {
+      "enum": [
+        "completed"
+      ]
+    },
+    "invoke": "{{webhooksiteurl}}/{order_id}"
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  # Add Notification (State Completed)
+
+  Registers a notification that fires when the order reaches `completed`. `{order_id}` in the invoke URL is replaced with the order id. Notifications are asynchronous and do not affect the state change. Open webhook.site to see the call.
+}

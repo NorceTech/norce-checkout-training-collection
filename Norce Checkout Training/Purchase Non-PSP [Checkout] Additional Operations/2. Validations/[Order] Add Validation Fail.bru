@@ -1,0 +1,35 @@
+meta {
+  name: [Order] Add Validation Fail
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{orderUrl}}/api/v1/checkout/orders/{{orderId}}/validations
+  body: json
+  auth: inherit
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+body:json {
+  {
+    "invoke": "https://400.returnco.de/whatever",
+    "adapterId": "onhand_verify"
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  # Add Validation (Fail)
+
+  Registers an external validation whose invoke URL always answers HTTP 400. The next **Validate Order** returns `400 Bad Request` with the failing validation.
+
+  Validations can only be added while the order is in `checkout` state. A PSP adapter calls validate at its own points in the flow (for example the Walley validation callback). That is where a failing validation stops the purchase.
+}
