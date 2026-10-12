@@ -7,7 +7,7 @@ meta {
 put {
   url: {{configurationUrl}}/api/v1/configuration/merchants/{{merchant}}/channels/{{channel}}/configurations/norce_adapter
   body: json
-  auth: bearer
+  auth: inherit
 }
 
 headers {
@@ -45,10 +45,12 @@ body:json {
     },
     "features": {
       "mapShippingFromNorceCommerce": true
-    },
-    "adapter": {
-      "internalUrl": "https://norce-adapter.checkout.{{internal_environment}}.internal.norce.tech",
-      "publicUrl": "{{norceAdapterUrl}}"
     }
   }
+}
+
+docs {
+  # Configure Norce Adapter v2 (Non-PSP channel)
+
+  Uses the v2 schema of the Norce Adapter. The `mapShippingFromNorceCommerce` flag maps shipping options from Commerce into Checkout. This is the recommended configuration for new integrations.
 }

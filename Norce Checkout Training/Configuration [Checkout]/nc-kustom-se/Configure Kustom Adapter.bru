@@ -1,0 +1,71 @@
+meta {
+  name: Configure Kustom Adapter
+  type: http
+  seq: 3
+}
+
+put {
+  url: {{configurationUrl}}/api/v1/configuration/merchants/{{merchant}}/channels/{{channel}}/configurations/klarna_checkout_adapter
+  body: json
+  auth: inherit
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+body:json {
+  {
+    "$schema": "https://{{slug}}.api-se{{environment}}.norce.tech/checkout/klarna-adapter/openapi/v1/schemas/klarna_checkout_adapter.json",
+    "id": "klarna_checkout_adapter",
+    "apiSettings": {
+      "apiUrl": "{{kustomApiUrl}}",
+      "username": "{{kustomUsername}}",
+      "password": "{{kustomPassword}}"
+    },
+    "redirectUrls": {
+      "termsUrl": "https://norce.io/terms",
+      "checkoutUrl": "https://norce.io/checkout",
+      "confirmationUrl": "https://app.checkout{{environment}}.internal.norce.tech/neworderconfirmation?orderId={orderId}&channel={channel}",
+      "validationErrorUrl": "https://norce.io/checkout/error"
+    },
+    "shippingCountries": [
+      "SE",
+      "NO",
+      "FI",
+      "DK"
+    ],
+    "options": {
+      "allowedCustomerTypes": [
+        "person",
+        "organization"
+      ],
+      "merchantReferenceSource": "OrderId",
+      "acquiringChannel": "ECOMMERCE",
+      "colorButton": "#000000",
+      "colorButtonText": "#ffffff",
+      "radiusBorder": "4px"
+    },
+    "adapter": {
+      "internalUrl": "https://klarna-adapter.checkout.{{internal_environment}}.internal.norce.tech",
+      "publicUrl": "{{kustomAdapterUrl}}"
+    },
+    "active": true
+  }
+}
+
+docs {
+  # Configure Kustom Adapter (Klarna Checkout / KCO)
+
+  Sets up the **Kustom Checkout** payment adapter for the `nc-kustom-se` channel. Kustom is the new name for **Klarna Checkout (KCO)** — Klarna is transitioning KCO to Kustom, but in Norce Checkout (NCO) it is still the **same adapter component**, `klarna_checkout_adapter`. Only the configuration changes:
+
+  - **API URL** points at Kustom's endpoints instead of Klarna's (`api.playground.kustom.co` for Playground, `api.kustom.co` for production — the old `api.klarna.com` host remains functional during the transition).
+  - **Credentials** (`username` / `password`) are the merchant credentials provided by Kustom.
+
+  Like Walley, this is a **hosted checkout** adapter: it returns an HTML snippet that the frontend embeds to render the Kustom/Klarna iframe. Configuration here covers the API credentials, the redirect URLs (terms, checkout, confirmation, validation error), the allowed shipping countries (ISO alpha-2), and UI/behaviour options such as `allowedCustomerTypes` (B2C/B2B) and `merchantReferenceSource`.
+
+  > **Redirect URL placeholders:** only `confirmationUrl` supports placeholders (`{orderId}`, `{channel}`) — the adapter substitutes these before sending the order to Klarna/Kustom. `termsUrl`, `checkoutUrl` and `validationErrorUrl` are passed through **verbatim**, so they must be plain, valid URLs. Putting `{merchant}`/`{channel}` in them leaves literal `{` `}` characters in the URL, which Klarna rejects with `BAD_VALUE: merchant_url.terms` when initiating payment.
+
+  > Note: this is the **NCO** adapter, not the legacy Storm/Shopping KCO integration.
+}

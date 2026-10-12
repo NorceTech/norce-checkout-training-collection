@@ -9,7 +9,7 @@ auth:bearer {
 docs {
   # 📘 Norce Checkout Training Collection
   
-  Welcome to the **Norce Checkout Training Collection** — a hands-on, developer-focused set of API calls designed to help you understand and test the full order and payment flow across **Norce Commerce**, **Norce Checkout**, and multiple PSP adapters (Non-PSP, Walley, Adyen).
+  Welcome to the **Norce Checkout Training Collection** — a hands-on, developer-focused set of API calls designed to help you understand and test the full order and payment flow across **Norce Commerce**, **Norce Checkout**, and multiple PSP adapters (Non-PSP, Walley, Adyen, Kustom).
   
   This collection is intended for developers who already have experience with **Norce Commerce** and now want to learn how **Norce Checkout** works internally:  
   how baskets are imported, how orders evolve through the state machine, how payment sessions are initiated, and how PSP adapters interact with external services.
@@ -24,14 +24,15 @@ docs {
   From *Commerce basket* ➝ *Checkout order* ➝ *Payment initiation* ➝ *Callback/complete*.
   
   ### 🔹 Multiple PSP scenarios  
-  * **Non-PSP** — lightweight mode with custom hooks/validations.  
-  * **Walley** — initiate payments via hosted snippet.  
-  * **Adyen** — authorize payments and simulate webhook completion.
+  * **Non-PSP** — no external provider; the full flow including completion runs in Bruno, plus scenarios for order updates, validations, notifications and hooks.  
+  * **Walley** — initiate a payment session; the purchase itself is completed in the Walley checkout.  
+  * **Adyen** — initiate a Drop-in payment session; completion requires the Drop-in frontend and Adyen's webhook.  
+  * **Kustom** — initiate a payment session and render the snippet with `web/checkout.html`.
   
   ### 🔹 Clear separation of responsibilities  
-  * **Arrange Basket [Commerce]** — create baskets and set buyer, delivery & payment method.  
-  * **Configuration [Checkout]** — configure channels and adapters using schema-driven settings.  
-  * **Purchase [Checkout]** — run full payment flows and complete orders.
+  * **Arrange Basket / One-Click Basket [Commerce]** — create baskets and set buyer, delivery & payment method.  
+  * **Purchase … [Checkout]** — import the basket and run payment flows, one folder per adapter.  
+  * **Configuration [Checkout]** — configure channels and adapters using schema-driven settings.
   
   ### 🔹 Secure & repeatable setup  
   The included environment (`Playground.bru`) uses secrets that you fill in locally.  
@@ -41,25 +42,27 @@ docs {
   
   ## 🧩 Structure Overview
   
-  ### **1. Arrange Basket [Commerce]**  
-  Prepare and populate a basket in Norce Commerce.  
+  ### **1. Arrange Basket [Commerce]** or **One-Click Basket [Commerce]**  
+  Prepare a basket in Norce Commerce, step by step or in one request.  
   You will obtain: `basketId`.
   
-  ### **2. Purchase (Checkout)**  
-  Import the basket into Checkout and execute payments.  
+  ### **2. Purchase … [Checkout]**  
+  Import the basket into Checkout and execute payments. One folder per adapter: Non-PSP Simple, Non-PSP Additional Operations (three scenarios in subfolders), Walley, Adyen and Kustom.  
   You will obtain: `orderId`, `paymentId`, and PSP interaction results.
   
-  ### **3. Configuration (Checkout)**  
-  Set up and update channel configurations, adapters, and settings used during payments.
+  ### **3. Configuration [Checkout]**  
+  Set up and update channel configurations and adapters. One subfolder per channel: `nc-walley-se`, `nc-nonpsp-se`, `nc-adyen-se`, `nc-kustom-se`.
   
   ---
   
   ## 💡 Best Practices
   
   * Keep the environment secrets updated locally.  
+  * `webhooksiteurl` defaults to `https://200.returnco.de` (answers 200, empty body). Set it to your own webhook.site URL to see what Checkout sends.  
   * Use the flows in order — many later requests depend on earlier IDs.  
+  * Start each purchase flow with a fresh basket — run the whole **One-Click Basket** folder.  
   * Compare responses between different PSP adapters to understand behavioral differences.  
-  * When testing Adyen flows, remember that final completion is triggered via a webhook (simulated in Bruno).
+  * Only the Non-PSP flows complete in Bruno. Walley, Adyen and Kustom complete in the provider's checkout.
   
   ---
   

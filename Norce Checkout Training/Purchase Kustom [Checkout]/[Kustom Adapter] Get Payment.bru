@@ -1,0 +1,28 @@
+meta {
+  name: [Kustom Adapter] Get Payment
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{kustomAdapterUrl}}/api/checkout/v1/orders/{{orderId}}/payments/{{paymentId}}
+  body: none
+  auth: inherit
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  # Get Payment (Kustom)
+
+  Fetches the Kustom payment for the order. After the purchase is completed in the Kustom checkout, the response contains the confirmation `htmlSnippet`.
+
+  Paste the response into `web/confirmation.html` and click **Rendera bekräftelse** to render the Kustom confirmation.
+}

@@ -22,6 +22,7 @@ To run this collection, you must have:
     * **Norce Commerce** (Client ID and Secret for token generation)
     * **Walley** (Client and API Secrets — *optional*)
     * **Adyen** (API Keys and HMAC Secrets — *optional*)
+    * **Kustom** (API username and password — *optional*)
 
 ### 2. Setup
 
@@ -39,21 +40,29 @@ To run this collection, you must have:
         * `commerceIdentityClientSecret`
         * `adyenApiKey`, `adyenClientKey`, `adyenMerchantAccount`, `adyenWebhookHmacKey`
         * `walleyScope`, `walleyApiSecret`, `walleyClientId`
+        * `kustomUsername`, `kustomPassword`
 
     * **Save** and **Activate** the environment.
 
+3.  **Callback URL for validations, notifications and hooks (optional):**
+    The environment variable `webhooksiteurl` defaults to `https://200.returnco.de`, which answers 200 with an empty body. The validation and hook scenarios pass with it, but you cannot see what Checkout sends.
+
+    To inspect the calls, create your own session at [webhook.site](https://webhook.site) and set `webhooksiteurl` to that URL locally. For the hook scenario (Non-PSP Additional Operations → *3. Notifications and Hooks*), configure the session to respond with an empty body or `[]`. Checkout treats any other non-JSON response from a hook as an error and rolls back the state change.
+
+4.  **Kustom snippet pages (optional):**
+    `web/checkout.html` and `web/confirmation.html` render the Kustom checkout and confirmation snippets. Open them locally in a browser and paste the response from `[Kustom Adapter] Initiate Payment` or `[Kustom Adapter] Get Payment`.
+
 ## 🗺️ Collection Structure and Flow
 
-The collection is logically separated into three main folders representing the central transaction stages.
+The collection has three kinds of folders: basket preparation in Commerce, purchase flows in Checkout and channel configuration.
 
-### 1. Arrange Basket [Commerce]
+### 1. Arrange Basket [Commerce] / One-Click Basket [Commerce]
 
-This folder focuses on creating and preparing the shopping basket in **Norce Commerce** before it is imported into Checkout.
+`Arrange Basket` builds the basket step by step. `One-Click Basket` creates the basket with items, payment and delivery method in one request and then sets the buyer. Both focus on creating and preparing the shopping basket in **Norce Commerce** before it is imported into Checkout.
 
 | Request | Purpose |
 | :--- | :--- |
-| `[Identity] Fetch Access Token` | **CRITICAL:** Acquires the necessary `commerce_token` (Client Credentials Grant) to authenticate all subsequent Commerce requests. |
-| `[Shopping] Create basket` | Initializes a new shopping basket and extracts the `basketId`. |
+| `[Shopping] Create basket` | Initializes a new shopping basket and extracts the `basketId`. Authentication is handled automatically via OAuth2 Client Credentials configured at the folder level. |
 | `[Shopping] Insert basket item` | Adds a product to the basket. |
 | `[Shopping] Update Buyer` / `[Shopping] Update Payment Method` / `[Shopping] Update Delivery Method` | Sets customer and logistic details required for successful checkout. |
 
@@ -61,19 +70,29 @@ This folder focuses on creating and preparing the shopping basket in **Norce Com
 
 This folder contains requests used for setting up the **Norce Checkout Channel Configurations**.
 
-* The folder is subdivided by channel: `nc-adyen-se`, `nc-nonpsp-se`, and `nc-walley-se`.
+* The folder is subdivided by channel: `nc-walley-se`, `nc-nonpsp-se`, `nc-adyen-se` and `nc-kustom-se`.
 * Requests like `Configure Adyen Adapter` demonstrate how sensitive PSP API keys are securely passed to the Norce Adapters on the server-side.
 
 ### 3. Purchase [Checkout] (Flow Testing)
 
-These folders demonstrate the full runtime flow of an order using the configured adapters. The typical sequence includes:
+One folder per adapter: `Purchase Non-PSP [Checkout] Simple`, `Purchase Non-PSP [Checkout] Additional Operations`, `Purchase Walley [Checkout]`, `Purchase Adyen [Checkout]` and `Purchase Kustom [Checkout]`. Start each flow with a fresh basket. Run the whole `One-Click Basket` folder (create basket + update buyer); Commerce needs the buyer's delivery address when the order completes. The typical sequence is:
 
 | Request | Endpoint | Function |
 | :--- | :--- | :--- |
 | **Step 1:** `[Norce Adapter] Create Checkout Order` | `POST /api/v1/orders` | Imports the prepared Commerce basket into Norce Checkout, retrieving the `orderId`. |
-| **Step 2:** `[Order] Get Order` | `GET /api/v0/checkout/orders/{orderId}` | Retrieves the current state of the Checkout Order. |
-| **Step 3:** `[PSP Adapter] Initiate Payment` | `POST /.../payments` | Starts the payment session, returning data necessary for the client-side UI (e.g., `paymentMethodsResponse`). |
-| **Step 4:** `[PSP Adapter] Complete Payment` | `POST /.../complete` | Simulates the final action required to move the order state to `completed` after successful authorization (often simulating a server-side Webhook). |
+| **Step 2:** `[Order] Get Order` | `GET /api/v1/checkout/orders/{orderId}` | Retrieves the current state of the Checkout Order. |
+| **Step 3:** `[PSP Adapter] Initiate Payment` | `POST /.../payments` | Starts the payment session, returning data necessary for the client-side UI (e.g., `paymentMethodsResponse` or `htmlSnippet`). |
+| **Step 4 (Non-PSP only):** `[Non-PSP Adapter] Complete Payment` | `POST /.../complete` | Moves the order to `completed`. Answers `202 Accepted`. |
+
+For Walley, Adyen and Kustom the purchase is completed in the provider's checkout, not in Bruno.
+
+`Purchase Non-PSP [Checkout] Additional Operations` contains three self-contained scenarios in subfolders:
+
+1. **Update Order** — update cart, customer addresses and payment method, then complete.
+2. **Validations** — register a passing and a failing external validation and run `Validate Order`.
+3. **Notifications and Hooks** — register a notification and a state hook, complete the payment and inspect the calls if `webhooksiteurl` points to your own webhook.site session.
+
+Hooks and validations can only be added while the order is in `checkout` state.
 
 ## 🔒 Security and Compliance Notes
 

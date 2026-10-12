@@ -18,16 +18,28 @@ headers {
 
 
 script:post-response {
-  // Extraherar och sätter variabeln 'paymentId' från response body om statuskoden är 200 OK.
+  // Saves 'paymentId' from the response body when the status is 200 OK.
   if (res.status === 200) {
     const paymentIdFromBody = res.body.paymentId;
     if (paymentIdFromBody !== undefined) {
       bru.setVar('paymentId', paymentIdFromBody);
-      console.log('Variabeln paymentId uppdaterad till: ' + paymentIdFromBody);
+      console.log('paymentId set to: ' + paymentIdFromBody);
     } else {
-      console.log('Status var 200 OK, men paymentId saknades i response body.');
+      console.log('Status 200 OK, but paymentId was missing in the response body.');
     }
   } else {
-    console.log('Status var ' + res.status + '. Variabeln paymentId lämnades oförändrad.');
+    console.log('Status ' + res.status + '. paymentId left unchanged.');
   }
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  # Initiate Payment (Adyen)
+
+  Starts an Adyen payment session for the order. The response contains the `paymentId` (saved for later use) and `paymentMethodsResponse` — the data a frontend would pass to the Adyen Drop-in component to render the payment UI.
+
+  In a real integration, the frontend would handle the Adyen Drop-in flow. Here we inspect the raw API response.
 }

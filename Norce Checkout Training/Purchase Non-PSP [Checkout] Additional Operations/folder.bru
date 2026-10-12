@@ -1,5 +1,6 @@
 meta {
   name: Purchase Non-PSP [Checkout] Additional Operations
+  seq: 5
 }
 
 auth {
@@ -8,4 +9,16 @@ auth {
 
 vars:pre-request {
   channel: nc-nonpsp-se
+}
+
+docs {
+  # Non-PSP Additional Operations
+
+  Three self-contained scenarios. Run each subfolder top to bottom, and start each with a fresh basket from the **One-Click Basket** folder.
+
+  1. **Update Order**: cart, customer addresses and payment method.
+  2. **Validations**: a passing and a failing external validation.
+  3. **Notifications and Hooks**: calls to `webhooksiteurl` when the order completes.
+
+  Hooks and validations can only be added while the order is in `checkout` state, so register them before you complete the payment.
 }

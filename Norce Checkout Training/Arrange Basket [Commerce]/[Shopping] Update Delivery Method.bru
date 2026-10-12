@@ -21,12 +21,18 @@ headers {
 }
 
 body:json {
-  { 
-      "Id": 130
+  {
+    "Id": 128
   }
 }
 
 assert {
   res.status: eq 200
   res('Basket.Id'): eq {{basketId}}
+}
+
+docs {
+  # Update Delivery Method
+
+  Sets the delivery method on the basket. This is the last step before the basket is ready to be exported to Norce Checkout. After running all five steps in this folder, move to one of the **Purchase** folders to import the basket as a Checkout order.
 }

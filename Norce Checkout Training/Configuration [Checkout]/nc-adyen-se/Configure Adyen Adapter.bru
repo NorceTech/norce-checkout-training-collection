@@ -7,7 +7,7 @@ meta {
 put {
   url: {{configurationUrl}}/api/v1/configuration/merchants/{{merchant}}/channels/{{channel}}/configurations/adyen_dropin_adapter
   body: json
-  auth: bearer
+  auth: inherit
 }
 
 headers {
@@ -19,7 +19,7 @@ headers {
 
 body:json {
   {
-    "$schema": "https://{{slug}}.api-se.playground.norce.tech/checkout/adyen-adapter/openapi/v1/schemas/adyen_dropin_adapter.json",
+    "$schema": "https://{{slug}}.api-se{{environment}}.norce.tech/checkout/adyen-adapter/openapi/v1/schemas/adyen_dropin_adapter.json",
     "id": "adyen_dropin_adapter",
     "active": true,
   
@@ -27,7 +27,7 @@ body:json {
   
     "adapter": {
       "internalUrl": "https://adyen-adapter.checkout.{{internal_environment}}.internal.norce.tech",
-      "publicUrl": "https://{{slug}}.api-se{{environment}}.norce.tech/checkout/adyen-adapter"
+      "publicUrl": "{{adyenAdapterUrl}}"
     },
   
     "apiSettings": {
@@ -72,5 +72,11 @@ body:json {
       }
     }
   }
-  
+
+}
+
+docs {
+  # Configure Adyen Adapter
+
+  Sets up the Adyen Drop-in payment adapter. Includes API keys, merchant account, webhook HMAC for signature verification, return URLs, and payment method configuration. The `adyenClientKey` is the client-side key used by the Drop-in component.
 }

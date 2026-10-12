@@ -1,0 +1,26 @@
+meta {
+  name: [Order] Validate Order (expect fail)
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{orderUrl}}/api/v1/checkout/orders/{{orderId}}/validate
+  body: none
+  auth: inherit
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+assert {
+  res.status: eq 400
+}
+
+docs {
+  # Validate Order (expect fail)
+
+  Same call as before, now with the failing validation registered. Expect `400 Bad Request` and a list of validation errors.
+}

@@ -7,7 +7,7 @@ meta {
 put {
   url: {{configurationUrl}}/api/v1/configuration/merchants/{{merchant}}/channels/{{channel}}/configurations/admin_meta
   body: json
-  auth: bearer
+  auth: inherit
 }
 
 headers {
@@ -19,7 +19,7 @@ headers {
 
 body:json {
   {
-    "$schema": "http://{{slug}}.checkoutadmin-se{{environment}}.norce.tech/api/schemas/v1/admin_meta_schema.json",
+    "$schema": "https://{{slug}}.checkoutadmin-se{{environment}}.norce.tech/api/schemas/v1/admin_meta_schema.json",
     "id": "admin_meta",
     "configs": [
       {
@@ -41,4 +41,10 @@ body:json {
     ],
     "active": true
   }
+}
+
+docs {
+  # Update Admin Meta
+
+  Configures the admin UI metadata for this channel. This tells the Checkout admin which adapter configurations exist and how to display them (icons, tags). Each entry points to the adapter's JSON schema for the admin to render a configuration form.
 }

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NCO Kustom – Confirmation</title>
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; max-width: 760px; margin: 24px auto; padding: 0 16px; color: #1a1a1a; }
+    h1 { font-size: 20px; }
+    p.help { color: #555; font-size: 14px; }
+    code { background: #f2f2f2; padding: 1px 5px; border-radius: 3px; }
+    .params { background: #f7f7f7; border: 1px solid #e2e2e2; padding: 12px 16px; border-radius: 6px; font-size: 14px; }
+    textarea { width: 100%; min-height: 140px; font-family: ui-monospace, Consolas, monospace; font-size: 12px; box-sizing: border-box; margin-top: 16px; }
+    button { background: #000; color: #fff; border: 0; padding: 10px 18px; font-size: 14px; cursor: pointer; border-radius: 4px; margin-top: 8px; }
+    #confirmation-container { margin-top: 24px; border: 1px dashed #ccc; min-height: 60px; padding: 8px; }
+  </style>
+</head>
+<body>
+  <h1>Tack för ditt köp 🎉</h1>
+  <p class="help">
+    Det här är confirmation-sidan som Kustom redirectar tillbaka till (din <code>confirmationUrl</code>).
+    Parametrarna nedan plockas från URL:en.
+  </p>
+
+  <div class="params" id="params"></div>
+
+  <p class="help">
+    För att visa Kustoms bekräftelse-snippet: kör
+    <code>[Kustom Adapter] Get Payment</code> i Bruno, klistra in svaret nedan och rendera.
+  </p>
+
+  <textarea id="snippet-input" placeholder='{ "status": "checkout_complete", "htmlSnippet": "..." }'></textarea>
+  <br />
+  <button id="render-btn">Rendera bekräftelse</button>
+
+  <div id="confirmation-container"></div>
+
+  <script>
+    // Visa query-parametrar (orderId, channel, m.fl.)
+    (function showParams() {
+      const params = new URLSearchParams(window.location.search);
+      const el = document.getElementById("params");
+      const entries = Array.from(params.entries());
+      if (entries.length === 0) {
+        el.textContent = "Inga query-parametrar i URL:en.";
+        return;
+      }
+      for (const [k, v] of entries) {
+        const row = document.createElement("div");
+        const key = document.createElement("strong");
+        key.textContent = k + ":";
+        row.append(key, " " + v);
+        el.append(row);
+      }
+    })();
+
+    function extractSnippet(raw) {
+      const text = raw.trim();
+      if (!text) return null;
+      try {
+        const obj = JSON.parse(text);
+        if (obj && typeof obj.htmlSnippet === "string") return obj.htmlSnippet;
+      } catch (e) {}
+      if (text.includes("klarna-checkout-container")) return text;
+      return null;
+    }
+
+    function renderSnippet(container, snippetHtml) {
+      container.innerHTML = snippetHtml;
+      Array.from(container.querySelectorAll("script")).forEach(function (oldScript) {
+        const newScript = document.createElement("script");
+        for (const attr of oldScript.attributes) newScript.setAttribute(attr.name, attr.value);
+        newScript.text = oldScript.textContent;
+        oldScript.parentNode.replaceChild(newScript, oldScript);
+      });
+    }
+
+    document.getElementById("render-btn").addEventListener("click", function () {
+      const snippet = extractSnippet(document.getElementById("snippet-input").value);
+      const container = document.getElementById("confirmation-container");
+      if (!snippet) { container.textContent = "Hittade ingen htmlSnippet."; return; }
+      renderSnippet(container, snippet);
+    });
+  </script>
+</body>
+</html>

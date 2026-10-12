@@ -1,0 +1,50 @@
+meta {
+  name: [Shopping] Update Buyer
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{commerceShoppingServiceUrl}}/UpdateBuyer2?basketId={{basketId}}&updatedBy=1
+  body: json
+  auth: inherit
+}
+
+params:query {
+  basketId: {{basketId}}
+  updatedBy: 1
+}
+
+headers {
+  Content-Type: application/json
+  applicationId: {{commerceApplicationId}}
+}
+
+body:json {
+  {
+    "Email": "nora.ehandell@norce.io",
+    "FirstName": "Nora",
+    "LastName": "Ehandell",
+    "CellPhone": "0046701234567",
+    "InvoiceAddress": {
+      "Line1": "Kungsgatan 9",
+      "Line2": "Lajn två",
+      "Zip": "111 43",
+      "City": "Stockholm",
+      "CountryId": 1
+    },
+    "UseInvoiceAddressAsDeliveryAddress": true
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  # Update Buyer
+
+  Sets buyer and address on the One-Click basket. Commerce needs a delivery address to create the order when Checkout completes the purchase.
+
+  Run the whole **One-Click Basket** folder to get a basket that is ready for any **Purchase** flow.
+}

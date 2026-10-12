@@ -1,0 +1,41 @@
+meta {
+  name: [Non-PSP Adapter] Initiate Payment
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{nonpspAdapterUrl}}/api/checkout/v1/orders/{{orderId}}/payments
+  body: none
+  auth: inherit
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+script:post-response {
+  // Saves 'paymentId' from the response body when the status is 200 OK.
+  if (res.status === 200) {
+    const paymentIdFromBody = res.body.paymentId;
+    if (paymentIdFromBody !== undefined) {
+      bru.setVar('paymentId', paymentIdFromBody);
+      console.log('paymentId set to: ' + paymentIdFromBody);
+    } else {
+      console.log('Status 200 OK, but paymentId was missing in the response body.');
+    }
+  } else {
+    console.log('Status ' + res.status + '. paymentId left unchanged.');
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  # Initiate Payment (Non-PSP)
+
+  Starts a Non-PSP payment session. The response contains the `paymentId` and the list of available payment methods configured on the adapter. The pre-selected method from the adapter config is used by default.
+}

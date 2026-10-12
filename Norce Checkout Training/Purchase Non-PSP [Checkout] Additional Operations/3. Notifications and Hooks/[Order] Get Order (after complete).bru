@@ -1,0 +1,27 @@
+meta {
+  name: [Order] Get Order (after complete)
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{orderUrl}}/api/v1/checkout/orders/{{orderId}}
+  body: none
+  auth: inherit
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.state.currentStatus: eq completed
+}
+
+docs {
+  # Get Order (after complete)
+
+  Fetches the order again. `state.currentStatus` should now be `completed`.
+}

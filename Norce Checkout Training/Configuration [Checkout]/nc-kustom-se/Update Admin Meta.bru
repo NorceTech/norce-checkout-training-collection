@@ -1,0 +1,48 @@
+meta {
+  name: Update Admin Meta
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{configurationUrl}}/api/v1/configuration/merchants/{{merchant}}/channels/{{channel}}/configurations/admin_meta
+  body: json
+  auth: inherit
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+body:json {
+  {
+    "$schema": "https://{{slug}}.checkoutadmin-se{{environment}}.norce.tech/api/schemas/v1/admin_meta_schema.json",
+    "id": "admin_meta",
+    "configs": [
+      {
+        "schema": "https://{{slug}}.api-se{{environment}}.norce.tech/checkout/norce-adapter/openapi/v2/schemas/norce_adapter.json",
+        "id": "norce_adapter",
+        "imgUrl": "/norce-logo-black.svg",
+        "tags": [
+          "Platform"
+        ]
+      },
+      {
+        "schema": "https://{{slug}}.api-se{{environment}}.norce.tech/checkout/klarna-adapter/openapi/v1/schemas/klarna_checkout_adapter.json",
+        "id": "klarna_checkout_adapter",
+        "imgUrl": "/kustom.png",
+        "tags": [
+          "Payment"
+        ]
+      }
+    ],
+    "active": true
+  }
+}
+
+docs {
+  # Update Admin Meta
+
+  Configures the admin UI metadata for the `nc-kustom-se` channel. This tells the Checkout admin which adapter configurations exist and how to display them (icons, tags). Each entry points to the adapter's JSON schema so the admin can render a configuration form — here, the Norce Adapter and the Kustom / Klarna Checkout adapter (`klarna_checkout_adapter`).
+}

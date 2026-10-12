@@ -1,0 +1,32 @@
+meta {
+  name: [Norce Adapter] Update Cart item
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{norceAdapterUrl}}/api/v1/orders/{{orderId}}/cart/items/{{cartItemId}}
+  body: json
+  auth: inherit
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+body:json {
+  {
+    "quantity":2
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  # Update Cart Item
+
+  Updates the quantity of a cart item in the Checkout order via the Norce Adapter. After updating, use **Refresh Order** to sync the changes back to Commerce.
+}

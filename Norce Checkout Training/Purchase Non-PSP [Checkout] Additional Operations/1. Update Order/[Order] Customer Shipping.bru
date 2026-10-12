@@ -1,11 +1,11 @@
 meta {
-  name: [Order] Customer Billing
+  name: [Order] Customer Shipping
   type: http
-  seq: 8
+  seq: 5
 }
 
 put {
-  url: {{orderUrl}}/api/v0/checkout/orders/{{orderId}}/customer/billing
+  url: {{orderUrl}}/api/v1/checkout/orders/{{orderId}}/customer/shipping
   body: json
   auth: inherit
 }
@@ -23,7 +23,7 @@ body:json {
       "streetAddress": "Billroad 10",
       "postalCode": "41123",
       "city": "Billsson",
-      "country": "se",
+      "country": "SE",
       "phone": "+46 70 011 22 33",
       "email": "bill@example.com",
       "attributes": {
@@ -32,4 +32,14 @@ body:json {
           "vatId": null
       }
   }
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  # Customer Shipping Address
+  
+  Sets the shipping address directly on the Checkout order. This is useful when the shipping address differs from the billing address that was set during basket creation in Commerce.
 }

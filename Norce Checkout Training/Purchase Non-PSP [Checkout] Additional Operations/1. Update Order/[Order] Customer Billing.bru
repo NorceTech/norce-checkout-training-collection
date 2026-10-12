@@ -1,11 +1,11 @@
 meta {
-  name: [Order] Customer Shipping
+  name: [Order] Customer Billing
   type: http
-  seq: 7
+  seq: 6
 }
 
 put {
-  url: {{orderUrl}}/api/v0/checkout/orders/{{orderId}}/customer/shipping
+  url: {{orderUrl}}/api/v1/checkout/orders/{{orderId}}/customer/billing
   body: json
   auth: inherit
 }
@@ -23,7 +23,7 @@ body:json {
       "streetAddress": "Billroad 10",
       "postalCode": "41123",
       "city": "Billsson",
-      "country": "se",
+      "country": "SE",
       "phone": "+46 70 011 22 33",
       "email": "bill@example.com",
       "attributes": {
@@ -32,4 +32,14 @@ body:json {
           "vatId": null
       }
   }
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  # Customer Billing Address
+  
+  Sets the billing address directly on the Checkout order. Together with the shipping address, this demonstrates how customer details can be updated on the Checkout side independently of Commerce.
 }

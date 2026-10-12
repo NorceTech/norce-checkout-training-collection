@@ -1,7 +1,7 @@
 meta {
   name: [Order] Add Notification State Completed
   type: http
-  seq: 12
+  seq: 2
 }
 
 post {
@@ -26,4 +26,14 @@ body:json {
     },
     "invoke": "{{webhooksiteurl}}/{order_id}"
   }
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  # Add Notification (State Completed)
+
+  Registers a notification that fires when the order reaches `completed`. `{order_id}` in the invoke URL is replaced with the order id. Notifications are asynchronous and do not affect the state change. Point `webhooksiteurl` to your own webhook.site session to see the call.
 }

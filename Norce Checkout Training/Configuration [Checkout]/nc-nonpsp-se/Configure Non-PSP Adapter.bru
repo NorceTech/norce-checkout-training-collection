@@ -7,7 +7,7 @@ meta {
 put {
   url: {{configurationUrl}}/api/v1/configuration/merchants/{{merchant}}/channels/{{channel}}/configurations/nonpsp_adapter
   body: json
-  auth: bearer
+  auth: inherit
 }
 
 headers {
@@ -19,7 +19,7 @@ headers {
 
 body:json {
   {
-    "$schema": "https://nonpsp-adapter.checkout.{{internal_environment}}.internal.norce.tech/openapi/v1/schemas/nonpsp_adapter.json",
+    "$schema": "{{nonpspAdapterUrl}}/openapi/v1/schemas/nonpsp_adapter.json",
     "id": "nonpsp_adapter",
     "active": true,
     "adapter": {
@@ -27,8 +27,8 @@ body:json {
       "publicUrl": "{{nonpspAdapterUrl}}"
     },
     "redirectUrls": {
-      "checkoutUrl": "https://app.checkout.test.internal.norce.tech/newcheckout?orderId={orderId}&merchant={merchant}&channel={channel}",
-      "confirmationUrl": "https://app.checkout.test.internal.norce.tech/neworderconfirmation?orderId={orderId}&merchant={merchant}&channel={channel}"
+      "checkoutUrl": "https://app.checkout{{environment}}.internal.norce.tech/newcheckout?orderId={orderId}&merchant={merchant}&channel={channel}",
+      "confirmationUrl": "https://app.checkout{{environment}}.internal.norce.tech/neworderconfirmation?orderId={orderId}&merchant={merchant}&channel={channel}"
     },
     "methods": [
       {
@@ -41,5 +41,11 @@ body:json {
       }
     ]
   }
-  
+
+}
+
+docs {
+  # Configure Non-PSP Adapter
+
+  Sets up the Non-PSP payment adapter for this channel. Defines redirect URLs for the checkout and confirmation pages, and configures available payment methods (`invoice` and `account-credit`). The `preSelected` flag determines which method is active by default when a payment session starts.
 }

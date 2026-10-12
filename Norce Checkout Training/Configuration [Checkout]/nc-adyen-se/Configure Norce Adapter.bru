@@ -7,7 +7,7 @@ meta {
 put {
   url: {{configurationUrl}}/api/v1/configuration/merchants/{{merchant}}/channels/{{channel}}/configurations/norce_adapter
   body: json
-  auth: bearer
+  auth: inherit
 }
 
 headers {
@@ -38,17 +38,19 @@ body:json {
     },
     "application": {
       "productUrlPattern": "https://admin.commerce.{{internal_environment}}.internal.norce.tech/product/detail/{productId}",
-      "imageBaseUrl": "https://media.test.cdn-norce.tech/{{commerceClientId}}"
+      "imageBaseUrl": "https://media{{environment}}.cdn-norce.tech/{{commerceClientId}}"
     },
     "country": {
       "defaultCountry": "{{countryCodeXX}}"
     },
     "features": {
       "mapShippingFromNorceCommerce": true
-    },
-    "adapter": {
-      "internalUrl": "https://norce-adapter.checkout.{{internal_environment}}.internal.norce.tech",
-      "publicUrl": "{{norceAdapterUrl}}"
     }
   }
+}
+
+docs {
+  # Configure Norce Adapter (Adyen channel)
+
+  Sets up the Norce Adapter for this channel. Note that `mapShippingFromNorceCommerce` is `true` here, meaning shipping options from Commerce will be mapped into the Checkout order. Compare with the Walley channel config where this is `false`.
 }

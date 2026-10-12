@@ -33,3 +33,9 @@ assert {
   res.status: eq 200
   res('Id'): eq {{basketId}}
 }
+
+docs {
+  # Insert Basket Item
+
+  Adds a product to the basket. The `PartNo` must match a valid product in the Commerce application. The assertion verifies the returned basket Id matches the one we created.
+}

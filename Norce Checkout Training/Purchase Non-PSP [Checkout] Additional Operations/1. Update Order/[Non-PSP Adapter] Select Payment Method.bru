@@ -1,7 +1,7 @@
 meta {
   name: [Non-PSP Adapter] Select Payment Method
   type: http
-  seq: 4
+  seq: 9
 }
 
 put {
@@ -19,4 +19,14 @@ body:json {
   {
     "selectedPaymentMethod": "account-credit"
   }
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  # Select Payment Method
+
+  Changes the active payment method on the Non-PSP payment session. The identifier must match one of the methods configured in the Non-PSP adapter. This demonstrates that payment method selection can happen after initiation.
 }

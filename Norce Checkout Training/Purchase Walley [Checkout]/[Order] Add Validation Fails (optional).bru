@@ -1,0 +1,37 @@
+meta {
+  name: [Order] Add Validation Fails (optional)
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{orderUrl}}/api/v1/checkout/orders/{{orderId}}/validations
+  body: json
+  auth: inherit
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+
+
+body:json {
+  {
+    "invoke": "https://400.returnco.de/validation-fail",
+    "adapterId": "fail_verify"
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  # Add Validation (Fail) — optional
+
+  **Not part of the normal purchase.** Run it only to demonstrate a blocked purchase.
+
+  Registers an external validation whose invoke URL always answers HTTP 400. The Walley adapter calls validate during the purchase, so the purchase in the Walley checkout fails and this order cannot be completed. Create a new order (from a fresh basket) to buy again.
+}

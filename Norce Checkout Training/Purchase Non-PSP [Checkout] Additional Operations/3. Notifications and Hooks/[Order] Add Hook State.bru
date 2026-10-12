@@ -1,0 +1,39 @@
+meta {
+  name: [Order] Add Hook State
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{orderUrl}}/api/v1/checkout/orders/{{orderId}}/hooks
+  body: json
+  auth: inherit
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+body:json {
+  {
+    "version": "v1",
+    "scope": "/state",
+    "invoke": "{{webhooksiteurl}}",
+    "adapterId": "external_reserve"
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  # Add Hook (State Change)
+
+  Registers a hook that is invoked on every state change of the order. Hooks are synchronous: the transition waits for the answer, and the answer may be a JSON Patch that changes the order.
+
+  The default `https://200.returnco.de` answers with an empty body. **If you use your own webhook.site session, configure it to answer with an empty body or `[]`.** Any other non-JSON answer, or an error status, makes Checkout roll back the state change, and **Complete Payment** fails.
+
+  Hooks can only be added while the order is in `checkout` state.
+}
