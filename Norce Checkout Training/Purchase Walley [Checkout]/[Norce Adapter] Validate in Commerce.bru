@@ -1,7 +1,7 @@
 meta {
   name: [Norce Adapter] Validate in Commerce
   type: http
-  seq: 7
+  seq: 6
 }
 
 post {
@@ -16,12 +16,14 @@ headers {
 }
 
 assert {
-  res.status: eq 200
+  res.status: eq 400
 }
 
 docs {
   # Validate in Commerce
 
-  Triggers validation of the order against Commerce (stock, pricing, etc.). The Norce Adapter calls Commerce to verify the basket is still valid before the order can be completed.
+  Asks the Norce Adapter to compare the Checkout order with the Commerce basket (items, prices, shipping).
+
+  **Expect `400` before shipping is chosen in the Walley checkout.** The Walley channel has `mapShippingFromNorceCommerce: false` and uses Walley's delivery module, so the Checkout order has no shipping until the shopper picks one in Walley, while the Commerce basket already has a freight fee. The response lists `validation-error-shipping-missing-in-checkout` and `validation-error-price-is-different`. Compare with the Kustom flow, where shipping is mapped from Commerce and this call returns `200`.
 }
 

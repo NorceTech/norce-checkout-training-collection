@@ -1,0 +1,27 @@
+meta {
+  name: [Norce Adapter] Validate in Commerce
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{norceAdapterUrl}}/api/v1/orders/{{orderId}}/validate
+  body: none
+  auth: inherit
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  # Validate in Commerce
+
+  Triggers validation of the order against Commerce (stock, pricing, etc.). The Norce Adapter calls Commerce to verify the basket is still valid before the order can be completed.
+}
+
