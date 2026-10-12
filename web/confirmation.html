@@ -26,7 +26,7 @@
 
   <p class="help">
     För att visa Kustoms bekräftelse-snippet: kör
-    <code>GET .../orders/{orderId}/payments/{paymentId}</code> i Bruno, klistra in svaret nedan och rendera.
+    <code>[Kustom Adapter] Get Payment</code> i Bruno, klistra in svaret nedan och rendera.
   </p>
 
   <textarea id="snippet-input" placeholder='{ "status": "checkout_complete", "htmlSnippet": "..." }'></textarea>
@@ -45,9 +45,13 @@
         el.textContent = "Inga query-parametrar i URL:en.";
         return;
       }
-      el.innerHTML = entries
-        .map(([k, v]) => "<div><strong>" + k + ":</strong> " + v + "</div>")
-        .join("");
+      for (const [k, v] of entries) {
+        const row = document.createElement("div");
+        const key = document.createElement("strong");
+        key.textContent = k + ":";
+        row.append(key, " " + v);
+        el.append(row);
+      }
     })();
 
     function extractSnippet(raw) {
