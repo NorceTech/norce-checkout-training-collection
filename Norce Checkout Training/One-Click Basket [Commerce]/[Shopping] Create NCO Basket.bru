@@ -28,7 +28,8 @@ body:json {
         "Quantity": 1    
       }
     ],  
-    "PaymentMethodId": 239
+    "PaymentMethodId": 239,
+    "DeliveryMethodId": 128
   }
 }
 
@@ -44,7 +45,7 @@ assert {
 docs {
   # One-Click Basket
 
-  Creates a fully prepared basket in a single request by passing customer, items, and payment method inline. This is a shortcut alternative to the step-by-step flow in the **Arrange Basket** folder.
+  Creates a fully prepared basket in a single request by passing customer, items, payment method and delivery method inline. This is a shortcut alternative to the step-by-step flow in the **Arrange Basket** folder.
 
   The returned `basketId` is saved and ready to use in any **Purchase** flow.
 }

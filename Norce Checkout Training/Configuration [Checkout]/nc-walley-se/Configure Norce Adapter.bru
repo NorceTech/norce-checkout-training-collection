@@ -36,7 +36,7 @@ body:json {
     },
     "application": {
       "productUrlPattern": "https://admin.commerce.{{internal_environment}}.internal.norce.tech/product/detail/{productId}",
-      "imageBaseUrl": "https://media.test.cdn-norce.tech/{{commerceClientId}}"
+      "imageBaseUrl": "https://media{{environment}}.cdn-norce.tech/{{commerceClientId}}"
     },
     "country": {
       "defaultCountry": "{{countryCodeXX}}"
