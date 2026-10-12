@@ -47,5 +47,5 @@ docs {
 
   Creates a fully prepared basket in a single request by passing customer, items, payment method and delivery method inline. This is a shortcut alternative to the step-by-step flow in the **Arrange Basket** folder.
 
-  The returned `basketId` is saved and can be imported into Checkout. Customer 39 has no delivery address, so completing the purchase fails in Commerce (`DeliveryAddressZipMissing`). Use **Arrange Basket** for flows that complete the order.
+  The returned `basketId` is saved. The next request sets the buyer and address, which Commerce needs at completion — run the whole folder.
 }
