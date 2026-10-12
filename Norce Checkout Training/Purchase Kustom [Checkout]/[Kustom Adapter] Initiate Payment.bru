@@ -1,0 +1,49 @@
+meta {
+  name: [Kustom Adapter] Initiate Payment
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{kustomAdapterUrl}}/api/checkout/v1/orders/{{orderId}}/payments
+  body: none
+  auth: inherit
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+script:post-response {
+  // Extraherar och sätter variabeln 'paymentId' från response body om statuskoden är 200 OK.
+  // Kustom/Klarna Checkout returnerar även ett htmlSnippet som frontend bäddar in för att rendera checkout-iframen.
+  if (res.status === 200) {
+    const paymentIdFromBody = res.body.paymentId || res.body.id;
+    if (paymentIdFromBody !== undefined) {
+      bru.setVar('paymentId', paymentIdFromBody);
+      console.log('Variabeln paymentId uppdaterad till: ' + paymentIdFromBody);
+    } else {
+      console.log('Status var 200 OK, men paymentId/id saknades i response body.');
+    }
+    if (res.body.htmlSnippet !== undefined) {
+      console.log('htmlSnippet mottaget (bäddas in av frontend för att visa Kustom/Klarna-checkouten).');
+    }
+  } else {
+    console.log('Status var ' + res.status + '. Variabeln paymentId lämnades oförändrad.');
+  }
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  # Initiate Payment (Kustom / Klarna Checkout)
+
+  Starts a **Kustom Checkout** payment session for the order via the `klarna_checkout_adapter`. Kustom is the new name for Klarna Checkout (KCO); in Norce Checkout it is the same adapter — see **Configure Kustom Adapter** for details.
+
+  The response contains the payment id (saved as `paymentId`) and an `htmlSnippet`. In a real integration the frontend embeds the `htmlSnippet` to render the hosted Kustom/Klarna checkout iframe, where the customer completes the purchase. Completion is then confirmed via Kustom's server-to-server callback, which the adapter uses to advance the order state.
+
+  This mirrors the Walley flow (both are hosted-checkout PSPs); compare the two to see how Norce Checkout normalises different providers behind the same order model.
+}

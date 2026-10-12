@@ -1,0 +1,51 @@
+meta {
+  name: [Norce Adapter] Create Checkout Order
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{norceAdapterUrl}}/api/v1/orders
+  body: json
+  auth: inherit
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+body:json {
+  {
+    "cartReference": {{basketId}},
+    "culture": "sv-SE"
+  }
+}
+
+script:post-response {
+  // Kontrollerar svarsstatus (201 Created) och sätter collection-variabeln 'orderId' om 'id' finns i svaret.
+  if (res.status === 201) {
+    const orderIdFromBody = res.body.id;
+
+    if (orderIdFromBody !== undefined) {
+      bru.setVar('orderId', orderIdFromBody);
+      console.log('Variabeln orderId uppdaterad till: ' + orderIdFromBody);
+    } else {
+      console.log('Status var 201 Created, men id saknades i response body.');
+    }
+  } else {
+    console.log('Status var ' + res.status + '. Variabeln orderId lämnades oförändrad.');
+  }
+}
+
+assert {
+  res.status: eq 201
+}
+
+docs {
+  # Create Checkout Order
+
+  Imports the Commerce basket into Norce Checkout via the Norce Adapter on the `nc-kustom-se` channel. The `cartReference` is the `basketId` from the Arrange Basket step.
+
+  On success (201 Created), the response contains the Checkout `orderId` which is saved for all subsequent requests in this flow.
+}

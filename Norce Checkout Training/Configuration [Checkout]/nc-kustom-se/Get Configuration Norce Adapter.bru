@@ -1,0 +1,22 @@
+meta {
+  name: Get Configuration Norce Adapter
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{configurationUrl}}/api/v1/configuration/merchants/{{merchant}}/channels/{{channel}}/configurations/norce_adapter
+  body: json
+  auth: inherit
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+docs {
+  # Get Configuration Norce Adapter
+
+  Returns the currently stored Norce Adapter configuration for the `nc-kustom-se` channel. Use this to verify the configuration after running **Configure Norce Adapter**.
+}

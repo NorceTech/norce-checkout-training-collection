@@ -1,0 +1,22 @@
+meta {
+  name: Get Channel Configurations
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{configurationUrl}}/api/v1/configuration/merchants/{{merchant}}/channels/{{channel}}/configurations
+  body: json
+  auth: inherit
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+docs {
+  # Get Channel Configurations
+
+  Lists all configurations stored for the `nc-kustom-se` channel (Norce Adapter, Kustom / Klarna Checkout adapter, admin meta). Use this to get an overview of everything configured on the channel.
+}

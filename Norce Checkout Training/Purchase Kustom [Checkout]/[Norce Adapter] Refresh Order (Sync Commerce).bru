@@ -1,0 +1,26 @@
+meta {
+  name: [Norce Adapter] Refresh Order (Sync Commerce)
+  type: http
+  seq: 6
+}
+
+put {
+  url: {{norceAdapterUrl}}/api/v1/orders/{{orderId}}
+  body: none
+  auth: inherit
+}
+
+headers {
+  x-merchant: {{merchant}}
+  x-channel: {{channel}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  # Refresh Order (Sync Commerce)
+
+  Syncs the Checkout order with the underlying Commerce basket. Call this after making changes in Commerce or after cart updates to pull the latest state into Checkout.
+}
