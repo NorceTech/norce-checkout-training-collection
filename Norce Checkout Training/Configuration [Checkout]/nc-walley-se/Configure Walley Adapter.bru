@@ -17,7 +17,7 @@ headers {
 
 body:json {
   {
-    "$schema": "https://{{slug}}.api-se.playground.norce.tech/checkout/walley-adapter/openapi/v1/schemas/walley_checkout_adapter.json",
+    "$schema": "https://{{slug}}.api-se{{environment}}.norce.tech/checkout/walley-adapter/openapi/v1/schemas/walley_checkout_adapter.json",
     "id": "walley_checkout_adapter",
     "apiSettings": {
       "clientId": "{{walleyClientId}}",
@@ -33,9 +33,9 @@ body:json {
     "redirectUrls": {
       "merchantTermsUri": "https://norce.io/terms?merchant={merchant}&channel={channel}",
       "redirectPageUri": "https://app.checkout{{environment}}.internal.norce.tech/neworderconfirmation",
-      "validationUri": "https://{{slug}}.api-se{{environment}}.norce.tech/checkout/walley-adapter",
+      "validationUri": "{{walleyAdapterUrl}}",
       "checkoutAbortedRedirectPageUri": "https://norce.io?orderId={orderId}&merchant={merchant}&channel={channel}",
-      "notificationUri": "https://{{slug}}.api-se{{environment}}.norce.tech/checkout/walley-adapter"   
+      "notificationUri": "{{walleyAdapterUrl}}"
   
     },
     "options": {
@@ -59,7 +59,7 @@ body:json {
     },
     "adapter": {
       "internalUrl": "https://walley-adapter.checkout.{{internal_environment}}.internal.norce.tech",
-      "publicUrl": "https://{{slug}}.api-se{{environment}}.norce.tech/checkout/walley-adapter"
+      "publicUrl": "{{walleyAdapterUrl}}"
     },
     "active": true
   }

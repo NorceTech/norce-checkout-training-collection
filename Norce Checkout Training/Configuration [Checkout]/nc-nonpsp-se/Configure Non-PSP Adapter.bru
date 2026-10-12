@@ -27,8 +27,8 @@ body:json {
       "publicUrl": "{{nonpspAdapterUrl}}"
     },
     "redirectUrls": {
-      "checkoutUrl": "https://app.checkout.test.internal.norce.tech/newcheckout?orderId={orderId}&merchant={merchant}&channel={channel}",
-      "confirmationUrl": "https://app.checkout.test.internal.norce.tech/neworderconfirmation?orderId={orderId}&merchant={merchant}&channel={channel}"
+      "checkoutUrl": "https://app.checkout{{environment}}.internal.norce.tech/newcheckout?orderId={orderId}&merchant={merchant}&channel={channel}",
+      "confirmationUrl": "https://app.checkout{{environment}}.internal.norce.tech/neworderconfirmation?orderId={orderId}&merchant={merchant}&channel={channel}"
     },
     "methods": [
       {

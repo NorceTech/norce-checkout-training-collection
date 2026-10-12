@@ -19,7 +19,7 @@ headers {
 
 body:json {
   {
-    "$schema": "https://{{slug}}.api-se.playground.norce.tech/checkout/adyen-adapter/openapi/v1/schemas/adyen_dropin_adapter.json",
+    "$schema": "https://{{slug}}.api-se{{environment}}.norce.tech/checkout/adyen-adapter/openapi/v1/schemas/adyen_dropin_adapter.json",
     "id": "adyen_dropin_adapter",
     "active": true,
   
@@ -27,7 +27,7 @@ body:json {
   
     "adapter": {
       "internalUrl": "https://adyen-adapter.checkout.{{internal_environment}}.internal.norce.tech",
-      "publicUrl": "https://{{slug}}.api-se{{environment}}.norce.tech/checkout/adyen-adapter"
+      "publicUrl": "{{adyenAdapterUrl}}"
     },
   
     "apiSettings": {
