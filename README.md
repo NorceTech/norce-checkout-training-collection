@@ -44,10 +44,10 @@ To run this collection, you must have:
 
     * **Save** and **Activate** the environment.
 
-3.  **Set Your Own Webhook URL:**
-    The environment variable `webhooksiteurl` points to a shared [webhook.site](https://webhook.site) session. The committed URL has expired and answers 404, which makes the validation and hook scenarios fail. Create your own session at [webhook.site](https://webhook.site) and update this variable locally. To run the scenarios without inspecting the calls, `https://200.returnco.de` answers 200 with an empty body.
+3.  **Callback URL for validations, notifications and hooks (optional):**
+    The environment variable `webhooksiteurl` defaults to `https://200.returnco.de`, which answers 200 with an empty body. The validation and hook scenarios pass with it, but you cannot see what Checkout sends.
 
-    For the hook scenario (Non-PSP Additional Operations → *3. Notifications and Hooks*), configure your webhook.site URL to respond with an empty body or `[]`. Checkout treats any other non-JSON response from a hook as an error and rolls back the state change.
+    To inspect the calls, create your own session at [webhook.site](https://webhook.site) and set `webhooksiteurl` to that URL locally. For the hook scenario (Non-PSP Additional Operations → *3. Notifications and Hooks*), configure the session to respond with an empty body or `[]`. Checkout treats any other non-JSON response from a hook as an error and rolls back the state change.
 
 4.  **Kustom snippet pages (optional):**
     `web/checkout.html` and `web/confirmation.html` render the Kustom checkout and confirmation snippets. Open them locally in a browser and paste the response from `[Kustom Adapter] Initiate Payment` or `[Kustom Adapter] Get Payment`.
@@ -90,7 +90,7 @@ For Walley, Adyen and Kustom the purchase is completed in the provider's checkou
 
 1. **Update Order** — update cart, customer addresses and payment method, then complete.
 2. **Validations** — register a passing and a failing external validation and run `Validate Order`.
-3. **Notifications and Hooks** — register a notification and a state hook, complete the payment and inspect the calls in webhook.site.
+3. **Notifications and Hooks** — register a notification and a state hook, complete the payment and inspect the calls if `webhooksiteurl` points to your own webhook.site session.
 
 Hooks and validations can only be added while the order is in `checkout` state.
 

@@ -29,7 +29,7 @@ assert {
 docs {
   # Add External Validation (Onhand)
 
-  Registers an external validation that calls your webhook.site URL when the order is validated. This simulates an external stock/on-hand check. A 2xx answer passes the validation. Open webhook.site to see the order payload Checkout sends.
+  Registers an external validation that calls `webhooksiteurl` when the order is validated. This simulates an external stock/on-hand check. A 2xx answer passes the validation. Point `webhooksiteurl` to your own webhook.site session to see the order payload Checkout sends.
 
   Validations can only be added while the order is in `checkout` state.
 }

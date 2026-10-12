@@ -58,7 +58,7 @@ docs {
   ## 💡 Best Practices
   
   * Keep the environment secrets updated locally.  
-  * Replace `webhooksiteurl` with your own webhook.site URL. The committed one has expired and answers 404, which makes validations and hooks fail.  
+  * `webhooksiteurl` defaults to `https://200.returnco.de` (answers 200, empty body). Set it to your own webhook.site URL to see what Checkout sends.  
   * Use the flows in order — many later requests depend on earlier IDs.  
   * Start each purchase flow with a fresh basket — run the whole **One-Click Basket** folder.  
   * Compare responses between different PSP adapters to understand behavioral differences.  

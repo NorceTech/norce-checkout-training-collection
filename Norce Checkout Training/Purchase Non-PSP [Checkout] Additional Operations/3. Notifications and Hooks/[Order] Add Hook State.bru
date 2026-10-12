@@ -33,7 +33,7 @@ docs {
 
   Registers a hook that is invoked on every state change of the order. Hooks are synchronous: the transition waits for the answer, and the answer may be a JSON Patch that changes the order.
 
-  **Configure webhook.site to answer with an empty body or `[]`.** Any other non-JSON answer, or an error status, makes Checkout roll back the state change, and **Complete Payment** fails.
+  The default `https://200.returnco.de` answers with an empty body. **If you use your own webhook.site session, configure it to answer with an empty body or `[]`.** Any other non-JSON answer, or an error status, makes Checkout roll back the state change, and **Complete Payment** fails.
 
   Hooks can only be added while the order is in `checkout` state.
 }
