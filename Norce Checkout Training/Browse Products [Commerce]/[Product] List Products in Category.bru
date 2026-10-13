@@ -1,0 +1,39 @@
+meta {
+  name: [Product] List Products in Category
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{commerceProductServiceUrl}}/ListProducts2?categorySeed=76&pageNo=1&pageSize=20&format=json
+  body: none
+  auth: inherit
+}
+
+params:query {
+  categorySeed: 76
+  pageNo: 1
+  pageSize: 20
+  format: json
+}
+
+headers {
+  applicationId: {{commerceApplicationId}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.ItemCount: gt 0
+}
+
+tests {
+  test("All items are listed", () => {
+    expect(res.body.Items.length).to.equal(res.body.ItemCount);
+  });
+}
+
+docs {
+  # List Products in Category
+
+  Lists the products in category 76 (`categorySeed`, comma separated for several categories). `ListProducts2` returns lighter product items than `GetProduct`, with paging via `pageNo` and `pageSize`. `ItemCount` is the total number of matching products.
+}

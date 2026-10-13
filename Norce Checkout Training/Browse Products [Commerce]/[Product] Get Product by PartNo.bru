@@ -1,0 +1,31 @@
+meta {
+  name: [Product] Get Product by PartNo
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{commerceProductServiceUrl}}/GetProductByPartNo?partNo=dtextreme&format=json
+  body: none
+  auth: inherit
+}
+
+params:query {
+  partNo: dtextreme
+  format: json
+}
+
+headers {
+  applicationId: {{commerceApplicationId}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.PartNo: eq dtextreme
+}
+
+docs {
+  # Get Product by PartNo
+
+  Fetches one product by its part number (`PartNo`), here `dtextreme`, the product the basket folders buy. The response is the full product: prices, on-hand, categories, parametrics and files.
+}
