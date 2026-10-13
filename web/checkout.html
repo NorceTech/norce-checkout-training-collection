@@ -36,12 +36,14 @@
       const text = raw.trim();
       if (!text) return null;
       // Försök tolka som JSON först
+      let obj;
       try {
-        const obj = JSON.parse(text);
-        if (obj && typeof obj.htmlSnippet === "string") return obj.htmlSnippet;
+        obj = JSON.parse(text);
       } catch (e) {
         // inte JSON – anta att det redan är snippet-HTML
       }
+      // Giltig JSON: använd bara htmlSnippet, rendera aldrig resten av svaret
+      if (obj !== undefined) return obj && typeof obj.htmlSnippet === "string" ? obj.htmlSnippet : null;
       if (text.includes("klarna-checkout-container") || text.includes("<script")) return text;
       return null;
     }
