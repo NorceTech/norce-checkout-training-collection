@@ -1,0 +1,30 @@
+meta {
+  name: Browse Products [Commerce]
+  seq: 2
+}
+
+auth {
+  mode: oauth2
+}
+
+auth:oauth2 {
+  grant_type: client_credentials
+  access_token_url: {{commerceIdentityServiceUrl}}/connect/token
+  refresh_token_url: 
+  client_id: {{commerceIdentityClientId}}
+  client_secret: {{commerceIdentityClientSecret}}
+  scope: {{commerceIdentityScope}}
+  credentials_placement: body
+  credentials_id: credentials
+  token_source: access_token
+  token_placement: header
+  token_header_prefix: Bearer
+  auto_fetch_token: true
+  auto_refresh_token: false
+}
+
+docs {
+  # Browse Products
+  
+  Read-only calls against the Commerce Product service: fetch a product by part number, list a category, filter the list and fetch a product with variants. Run them before building a basket to find part numbers to buy.
+}

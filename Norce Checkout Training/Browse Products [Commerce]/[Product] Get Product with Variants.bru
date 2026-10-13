@@ -1,0 +1,39 @@
+meta {
+  name: [Product] Get Product with Variants
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{commerceProductServiceUrl}}/GetProductByPartNo?partNo=100011&format=json
+  body: none
+  auth: inherit
+}
+
+params:query {
+  partNo: 100011
+  format: json
+}
+
+headers {
+  applicationId: {{commerceApplicationId}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.Variants: isDefined
+}
+
+tests {
+  test("Product has variants", () => {
+    expect(res.body.Variants.length).to.be.greaterThan(1);
+  });
+}
+
+docs {
+  # Get Product with Variants
+
+  `100011` is the part number of a **variant**. `GetProductByPartNo` returns the whole product (Husqvarna 550 XPG Mark II Chainsaw, product id 23) with all its variants in `Variants`. Each variant has its own `PartNo`, price and on-hand. `VariantParametrics` on each variant shows what separates them, here the cutting size (13'' or 15'').
+
+  When buying, use the variant's `PartNo` in the basket, not the product id.
+}

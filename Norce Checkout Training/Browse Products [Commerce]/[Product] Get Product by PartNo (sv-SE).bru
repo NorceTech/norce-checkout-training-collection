@@ -1,0 +1,32 @@
+meta {
+  name: [Product] Get Product by PartNo (sv-SE)
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{commerceProductServiceUrl}}/GetProductByPartNo?partNo=dtextreme&cultureCode=sv-SE&format=json
+  body: none
+  auth: inherit
+}
+
+params:query {
+  partNo: dtextreme
+  cultureCode: sv-SE
+  format: json
+}
+
+headers {
+  applicationId: {{commerceApplicationId}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.PartNo: eq dtextreme
+}
+
+docs {
+  # Get Product by PartNo (sv-SE)
+
+  Same product as the previous request, with `cultureCode=sv-SE`. Texts and parametric names come back in Swedish, for example the sub header "Tålig digitalklocka för friluftsliv och träning" and the parametrics "Urverk", "Boettdiameter" and "Vattentäthet". Without `cultureCode` the application's default culture is used.
+}

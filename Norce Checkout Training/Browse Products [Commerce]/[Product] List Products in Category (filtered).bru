@@ -1,0 +1,48 @@
+meta {
+  name: [Product] List Products in Category (filtered)
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{commerceProductServiceUrl}}/ListProducts2?categorySeed=76&filter=prcf|true_1000-6000&sort=Price asc&pageNo=1&pageSize=20&format=json
+  body: none
+  auth: inherit
+}
+
+params:query {
+  categorySeed: 76
+  filter: prcf|true_1000-6000
+  sort: Price asc
+  pageNo: 1
+  pageSize: 20
+  format: json
+}
+
+headers {
+  applicationId: {{commerceApplicationId}}
+}
+
+assert {
+  res.status: eq 200
+  res.body.ItemCount: gt 0
+}
+
+tests {
+  test("All prices incl. VAT are between 1000 and 6000", () => {
+    for (const p of res.body.Items) {
+      expect(p.PriceIncVat).to.be.within(1000, 6000);
+    }
+  });
+}
+
+docs {
+  # List Products in Category (filtered)
+
+  Same list as before, filtered on price and sorted by price.
+
+  - `filter=prcf|true_1000-6000`: price filter. `true` means the range is incl. VAT, followed by `from-to`.
+  - `sort=Price asc`: supported sort properties are PopularityRank, Name, Price and SortOrder.
+
+  Other filters, separated by `;`: `mfrf|<manufacturerIds>`, `flgf|<flagIds>`, `ohf|true` (on hand) and `parf|L<parametricId>_<listValueId>`, for example `parf|L223_283` (Movement: Automatic). Take the ids from **List Product Filters**.
+}

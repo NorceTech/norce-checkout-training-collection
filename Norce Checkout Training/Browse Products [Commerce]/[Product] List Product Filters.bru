@@ -1,0 +1,30 @@
+meta {
+  name: [Product] List Product Filters
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{commerceProductServiceUrl}}/ListProductFilters2?categorySeed=76&format=json
+  body: none
+  auth: inherit
+}
+
+params:query {
+  categorySeed: 76
+  format: json
+}
+
+headers {
+  applicationId: {{commerceApplicationId}}
+}
+
+assert {
+  res.status: eq 200
+}
+
+docs {
+  # List Product Filters
+
+  Returns the filters available for the products in category 76, with counts: manufacturer (`mfrf`), flag (`flgf`), on hand (`ohf`), price range (`prcf`) and parametrics (`parf`). Use the ids and values here to build the `filter` parameter in the next request.
+}

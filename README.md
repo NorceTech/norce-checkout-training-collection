@@ -62,6 +62,10 @@ To run this collection, you must have:
 
 The collection has three kinds of folders: basket preparation in Commerce, purchase flows in Checkout and channel configuration.
 
+### 0. Browse Products [Commerce]
+
+Read-only product calls: get a product by part number (`dtextreme`), list category 76, list the available filters, filter the list on price and get a product with variants (part number `100011`). Use it to find part numbers before building a basket.
+
 ### 1. Arrange Basket [Commerce] / One-Click Basket [Commerce]
 
 `Arrange Basket` builds the basket step by step. `One-Click Basket` creates the basket with items, payment and delivery method in one request and then sets the buyer. Both focus on creating and preparing the shopping basket in **Norce Commerce** before it is imported into Checkout.
