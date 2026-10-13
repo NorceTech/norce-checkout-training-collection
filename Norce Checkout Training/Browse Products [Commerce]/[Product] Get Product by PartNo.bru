@@ -19,6 +19,10 @@ headers {
   applicationId: {{commerceApplicationId}}
 }
 
+vars:post-response {
+  defaultPriceIncVat: res.body.PriceIncVat
+}
+
 assert {
   res.status: eq 200
   res.body.PartNo: eq dtextreme

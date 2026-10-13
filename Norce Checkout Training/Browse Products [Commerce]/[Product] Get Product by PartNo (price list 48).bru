@@ -1,0 +1,46 @@
+meta {
+  name: [Product] Get Product by PartNo (price list 48)
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{commerceProductServiceUrl}}/GetProductByPartNo?partNo=dtextreme&pricelistSeed=48&format=json
+  body: none
+  auth: inherit
+}
+
+params:query {
+  partNo: dtextreme
+  pricelistSeed: 48
+  format: json
+}
+
+headers {
+  applicationId: {{commerceApplicationId}}
+}
+
+
+assert {
+  res.status: eq 200
+  res.body.PartNo: eq dtextreme
+  res.body.PriceListId: eq 48
+}
+
+tests {
+  test("Price list 48 gives a lower price than the default", () => {
+    const defaultPrice = bru.getVar("defaultPriceIncVat");
+    expect(defaultPrice, "run Get Product by PartNo first").to.be.a("number");
+    expect(res.body.PriceIncVat).to.be.below(defaultPrice);
+  });
+}
+
+docs {
+  # Get Product by PartNo (price list 48)
+
+  Same product with `pricelistSeed=48`. The price is taken from price list 48 instead of the application's default (price list 28): 2 910 kr incl. VAT instead of 3 490 kr. `PriceListId` in the response shows which price list the price came from.
+
+  `pricelistSeed` takes a comma separated list of price list ids. They are combined with the application's public price lists and any customer or company price lists, and the lowest price wins.
+
+  The test compares with the price saved by **Get Product by PartNo**, so run that request first.
+}
