@@ -42,4 +42,8 @@ docs {
   Starts a Walley payment session for the order. The response contains the `paymentId` (saved for later use) and snippet data that a frontend would embed to render the Walley checkout widget.
 
   In a real integration, the customer interacts with the Walley hosted snippet. Completion happens via Walley's server-to-server callback.
+
+  To try the checkout, paste the response into `web/checkout.html` (served from localhost, see README) and click **Rendera**. The Walley UAT checkout renders on `http://localhost`.
+
+  **Completing the purchase does not work in playground yet.** Walley's delivery module is enabled for the test store, but Walley never reports the chosen shipping back to the adapter, so the Checkout order has no shipping. Walley's validation callback then rejects the purchase (`validation-error-shipping-missing-in-checkout` or a total mismatch). Rendering the checkout and choosing delivery works.
 }

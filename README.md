@@ -49,8 +49,14 @@ To run this collection, you must have:
 
     To inspect the calls, create your own session at [webhook.site](https://webhook.site) and set `webhooksiteurl` to that URL locally. For the hook scenario (Non-PSP Additional Operations → *3. Notifications and Hooks*), configure the session to respond with an empty body or `[]`. Checkout treats any other non-JSON response from a hook as an error and rolls back the state change.
 
-4.  **Kustom snippet pages (optional):**
-    `web/checkout.html` and `web/confirmation.html` render the Kustom checkout and confirmation snippets. Open them locally in a browser and paste the response from `[Kustom Adapter] Initiate Payment` or `[Kustom Adapter] Get Payment`.
+4.  **Snippet pages for Kustom and Walley (optional):**
+    `web/checkout.html` renders the checkout snippet from `[Kustom Adapter] Initiate Payment` or `[Walley Adapter] Initiate Payment`. `web/confirmation.html` renders the Kustom confirmation from `[Kustom Adapter] Get Payment`. Serve the folder locally and paste the response into the page:
+
+    ```bash
+    python -m http.server 8765 --directory web
+    ```
+
+    Then open `http://localhost:8765/checkout.html`. The Walley UAT checkout renders on localhost.
 
 ## 🗺️ Collection Structure and Flow
 
