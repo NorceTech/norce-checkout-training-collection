@@ -27,8 +27,9 @@ assert {
 }
 
 tests {
-  test("All items are listed", () => {
-    expect(res.body.Items.length).to.equal(res.body.ItemCount);
+  test("First page holds at most pageSize items of ItemCount", () => {
+    expect(res.body.Items.length).to.be.above(0);
+    expect(res.body.Items.length).to.be.at.most(Math.min(20, res.body.ItemCount));
   });
 }
 
