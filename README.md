@@ -68,7 +68,7 @@ Read-only product calls: get a product by part number (`dtextreme`), list catego
 
 ### 1. Arrange Basket [Commerce] / One-Click Basket [Commerce]
 
-`Arrange Basket` builds the basket step by step. `One-Click Basket` creates the basket with items, payment and delivery method in one request and then sets the buyer. Both focus on creating and preparing the shopping basket in **Norce Commerce** before it is imported into Checkout.
+`Arrange Basket` builds the basket step by step. `One-Click Basket` creates the whole basket in one request: customer (Nora Ehandell, customer 56), items, payment and delivery method. Both focus on creating and preparing the shopping basket in **Norce Commerce** before it is imported into Checkout.
 
 | Request | Purpose |
 | :--- | :--- |
@@ -85,7 +85,7 @@ This folder contains requests used for setting up the **Norce Checkout Channel C
 
 ### 3. Purchase [Checkout] (Flow Testing)
 
-One folder per adapter: `Purchase Non-PSP [Checkout] Simple`, `Purchase Non-PSP [Checkout] Additional Operations`, `Purchase Walley [Checkout]`, `Purchase Adyen [Checkout]` and `Purchase Kustom [Checkout]`. Start each flow with a fresh basket. Run the whole `One-Click Basket` folder (create basket + update buyer); Commerce needs the buyer's delivery address when the order completes. The typical sequence is:
+One folder per adapter: `Purchase Non-PSP [Checkout] Simple`, `Purchase Non-PSP [Checkout] Additional Operations`, `Purchase Walley [Checkout]`, `Purchase Adyen [Checkout]` and `Purchase Kustom [Checkout]`. Start each flow with a fresh basket. `One-Click Basket` gives one in a single request; its customer has a delivery address, which Commerce needs when the order completes. The typical sequence is:
 
 | Request | Endpoint | Function |
 | :--- | :--- | :--- |
